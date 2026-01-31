@@ -12,11 +12,11 @@ export default defineConfig(({ mode }) => {
      plugins: [react()],
     define: {
       // Provide an explicit app-level constant derived from an env var.
-      __APP_ENV__: JSON.stringify(env.APP_ENV),
+      __APP_ENV__: JSON.stringify(env.VITE_APP_ENV),
     },
     // Example: use an env var to set the dev server port conditionally.
     server: {
-      port: env.APP_PORT ? Number(env.APP_PORT) : 5173,
+      port: env.VITE_APP_PORT ? Number(env.VITE_APP_PORT) : 5173,
     },
   }
 })
