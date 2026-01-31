@@ -36,7 +36,6 @@ export const TRANSACTION_CATEGORY = {
   OTHER_EXPENSE: "other_expense",
 };
 
-
 /**
  * Adds a new transaction to the budget
  * Returns a new budget object (does not mutate)
@@ -96,7 +95,9 @@ function updateTransactionInBudget(budget, updatedTransaction) {
  * @returns {Array<Transaction>}
  */
 function getTransactionsByCategory(budget, category) {
-    return budget.transactions.filter(transaction => transaction.category === category);
+  return budget.transactions.filter(
+    (transaction) => transaction.category === category,
+  );
 }
 
 /**
@@ -107,7 +108,7 @@ function getTransactionsByCategory(budget, category) {
  * @returns {Array<Transaction>}
  */
 function getTransactionsByKind(budget, kind) {
-    return budget.transactions.filter(transaction => transaction.kind === kind);
+  return budget.transactions.filter((transaction) => transaction.kind === kind);
 }
 
 /**
@@ -117,8 +118,14 @@ function getTransactionsByKind(budget, kind) {
  * @returns {number} total income
  */
 function getTotalIncome(budget) {
-    const incomeTransactions = getTransactionsByKind(budget, TRANSACTION_KIND.INCOME);
-    return incomeTransactions.reduce((total, transaction) => total + transaction.amount, 0);
+  const incomeTransactions = getTransactionsByKind(
+    budget,
+    TRANSACTION_KIND.INCOME,
+  );
+  return incomeTransactions.reduce(
+    (total, transaction) => total + transaction.amount,
+    0,
+  );
 }
 
 /**
@@ -128,8 +135,14 @@ function getTotalIncome(budget) {
  * @returns {number} total expenses
  */
 function getTotalExpenses(budget) {
-    const expenseTransactions = getTransactionsByKind(budget, TRANSACTION_KIND.EXPENSE);
-    return expenseTransactions.reduce((total, transaction) => total + transaction.amount, 0);
+  const expenseTransactions = getTransactionsByKind(
+    budget,
+    TRANSACTION_KIND.EXPENSE,
+  );
+  return expenseTransactions.reduce(
+    (total, transaction) => total + transaction.amount,
+    0,
+  );
 }
 
 /**
@@ -140,9 +153,9 @@ function getTotalExpenses(budget) {
  * @returns {number} final balance for the month
  */
 function calculateBudgetBalance(budget) {
-    const totalIncome = getTotalIncome(budget);
-    const totalExpenses = getTotalExpenses(budget);
-    return budget.startingBalance + totalIncome - totalExpenses;
+  const totalIncome = getTotalIncome(budget);
+  const totalExpenses = getTotalExpenses(budget);
+  return budget.startingBalance + totalIncome - totalExpenses;
 }
 
 /**
@@ -156,9 +169,21 @@ function calculateBudgetBalance(budget) {
  * }}
  */
 function getMonthlySummary(budget) {
-    return {
-        totalIncome: getTotalIncome(budget),
-        totalExpenses: getTotalExpenses(budget),
-        netBalance: calculateBudgetBalance(budget),
-    };
+  return {
+    totalIncome: getTotalIncome(budget),
+    totalExpenses: getTotalExpenses(budget),
+    netBalance: calculateBudgetBalance(budget),
+  };
 }
+
+export {
+  addTransactionToBudget,
+  removeTransactionFromBudget,
+  updateTransactionInBudget,
+  getTransactionsByCategory,
+  getTransactionsByKind,
+  getTotalIncome,
+  getTotalExpenses,
+  calculateBudgetBalance,
+  getMonthlySummary,
+};
