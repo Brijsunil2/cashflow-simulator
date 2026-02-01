@@ -14,13 +14,13 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <h1>Dashboard</h1>
+
       {/* Summary and transaction components would go here */}
+      
 
       {/* Example button to add a transaction */}
 
-      {/* Example button to remove a transaction */}
-
-      {/* Example button to update a transaction */}
+      {/* Transaction list would go here */}
     </div>
   )
 }
