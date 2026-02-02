@@ -7,6 +7,7 @@ import {
 } from "../logic/budgetEngine";
 import SummaryCard from "../components/SummaryCard";
 import TransactionForm from "../components/TransactionForm";
+import TransactionList from "../components/TransactionList/TransactionList";
 
 const initialBudget = {
   month: "2026-01",
@@ -21,21 +22,24 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <h1>CashFlow Dashboard</h1>
 
-      {/* Summary and transaction components would go here */}
       <SummaryCard
         netBalance={calculateBudgetBalance(budget)}
         totalIncome={getTotalIncome(budget)}
         totalExpenses={getTotalExpenses(budget)}
       />
 
-      {/* Example button to add a transaction */}
       <TransactionForm
         onSubmit={(transaction) =>
           dispatch({ type: "ADD_TRANSACTION", payload: transaction })
         }
       />
 
-      {/* Transaction list would go here */}
+      <TransactionList
+        transactions={budget.transactions}
+        onDelete={(transactionId) =>
+          dispatch({ type: "REMOVE_TRANSACTION", payload: transactionId })
+        }
+      />
     </div>
   );
 };
