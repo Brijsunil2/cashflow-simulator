@@ -1,3 +1,5 @@
+import { TRANSACTION_KIND } from "./transactionConstants";
+
 /**
  * Budget shape
  * @property {string} month - Budget month in YYYY-MM format
@@ -14,27 +16,6 @@
  * @property {string} category - e.g. rent, groceries, salary
  * @property {'income' | 'expense'} kind - Direction of money
  */
-
-export const TRANSACTION_KIND = {
-  INCOME: "income",
-  EXPENSE: "expense",
-};
-
-export const TRANSACTION_CATEGORY = {
-  // Income
-  SALARY: "salary",
-  FREELANCE: "freelance",
-  OTHER_INCOME: "other_income",
-
-  // Expenses
-  RENT: "rent",
-  UTILITIES: "utilities",
-  GROCERIES: "groceries",
-  TRANSPORTATION: "transportation",
-  ENTERTAINMENT: "entertainment",
-  SUBSCRIPTIONS: "subscriptions",
-  OTHER_EXPENSE: "other_expense",
-};
 
 /**
  * Adds a new transaction to the budget

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { TRANSACTION_KIND, TRANSACTION_CATEGORY } from "../logic/budgetEngine";
+import { TRANSACTION_KIND, INCOME_CATEGORIES, EXPENSE_CATEGORIES } from "../logic/transactionConstants";
 
 const TransactionForm = ({ onSubmit }) => {
   const [transaction, setTransaction] = useState({
@@ -17,10 +17,22 @@ const TransactionForm = ({ onSubmit }) => {
     }));
   }
 
-  function handleSubmit(e) {
+    function handleKindChange(newKind) {
+    setTransaction((prev) => ({
+      ...prev,
+      kind: newKind,
+      category: '',
+    }));
+  }
+
+   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!transaction.name || !transaction.amount || !transaction.category) {
+    if (
+      !transaction.name ||
+      !transaction.amount ||
+      !transaction.category
+    ) {
       return;
     }
 
@@ -30,11 +42,16 @@ const TransactionForm = ({ onSubmit }) => {
       amount: Number(transaction.amount),
       kind: transaction.kind,
       category: transaction.category,
-      date: new Date().toISOString().split("T")[0],
+      date: new Date().toISOString().split('T')[0],
     });
 
     setTransaction(initialTransaction);
   }
+
+  const categories =
+    transaction.kind === TRANSACTION_KIND.INCOME
+      ? Object.values(INCOME_CATEGORIES)
+      : Object.values(EXPENSE_CATEGORIES);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -43,19 +60,19 @@ const TransactionForm = ({ onSubmit }) => {
       <input
         placeholder="Name"
         value={transaction.name}
-        onChange={(e) => handleChange("name", e.target.value)}
+        onChange={(e) => handleChange('name', e.target.value)}
       />
 
       <input
         type="number"
         placeholder="Amount"
         value={transaction.amount}
-        onChange={(e) => handleChange("amount", e.target.value)}
+        onChange={(e) => handleChange('amount', e.target.value)}
       />
 
       <select
         value={transaction.kind}
-        onChange={(e) => handleChange("kind", e.target.value)}
+        onChange={(e) => handleKindChange(e.target.value)}
       >
         <option value={TRANSACTION_KIND.INCOME}>Income</option>
         <option value={TRANSACTION_KIND.EXPENSE}>Expense</option>
@@ -63,10 +80,10 @@ const TransactionForm = ({ onSubmit }) => {
 
       <select
         value={transaction.category}
-        onChange={(e) => handleChange("category", e.target.value)}
+        onChange={(e) => handleChange('category', e.target.value)}
       >
         <option value="">Select category</option>
-        {Object.values(TRANSACTION_CATEGORY).map((cat) => (
+        {categories.map((cat) => (
           <option key={cat} value={cat}>
             {cat}
           </option>
