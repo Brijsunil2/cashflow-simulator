@@ -6,10 +6,11 @@ import {
   getTotalExpenses,
 } from "../logic/budgetEngine";
 import SummaryCard from "../components/SummaryCard";
+import TransactionForm from "../components/TransactionForm";
 
 const initialBudget = {
   month: "2026-01",
-  startingBalance: 10,
+  startingBalance: 0,
   transactions: [],
 };
 
@@ -28,6 +29,11 @@ const Dashboard = () => {
       />
 
       {/* Example button to add a transaction */}
+      <TransactionForm
+        onSubmit={(transaction) =>
+          dispatch({ type: "ADD_TRANSACTION", payload: transaction })
+        }
+      />
 
       {/* Transaction list would go here */}
     </div>
