@@ -1,4 +1,5 @@
-/* Flex helpers */
+@use "./breakpoints" as *;
+
 @mixin flex-center {
   display: flex;
   align-items: center;
@@ -24,4 +25,16 @@
   border: 1px solid $color-border;
   border-radius: $radius-md;
   box-shadow: $shadow-sm;
+}
+
+@mixin respond($size) {
+  $breakpoint: map-get($breakpoints, $size);
+
+  @if $breakpoint != null {
+    @media (min-width: $breakpoint) {
+      @content;
+    }
+  } @else {
+    @error "No breakpoint found for `#{$size}`";
+  }
 }
