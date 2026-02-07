@@ -22,13 +22,11 @@ const Dashboard = () => {
   return (
     <div className="page">
       <div className="page-container dashboard">
-        {/* Header */}
         <header className="dashboard__header">
           <h1>CashFlow Dashboard</h1>
           <p>Monthly income, expenses, and balance overview</p>
         </header>
 
-        {/* Summary */}
         <section className="dashboard__summary">
           <SummaryCard
             netBalance={calculateBudgetBalance(budget)}
@@ -37,7 +35,6 @@ const Dashboard = () => {
           />
         </section>
 
-        {/* Main content */}
         <section className="dashboard__content">
           <div className="dashboard__transactions">
             <TransactionList

@@ -2,6 +2,7 @@
 @use '../../styles/abstracts/typography' as *;
 @use '../../styles/abstracts/colors' as *;
 @use '../../styles/abstracts/breakpoints' as *;
+@use "sass:map";
 
 /**
  * Dashboard root
@@ -39,7 +40,7 @@
   display: grid;
   gap: $space-4;
 
-  @media (min-width: map-get($breakpoints, md)) {
+  @media (min-width: map.get($breakpoints, md)) {
     grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -52,7 +53,7 @@
   display: grid;
   gap: $space-6;
 
-  @media (min-width: map-get($breakpoints, lg)) {
+  @media (min-width: map.get($breakpoints, lg)) {
     grid-template-columns: 2fr 1fr;
     align-items: start;
   }
