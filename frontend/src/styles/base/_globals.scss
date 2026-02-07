@@ -1,9 +1,8 @@
 @use '../abstracts/colors' as *;
 @use '../abstracts/spacing' as *;
-@use '../abstracts/variables' as *;
 
 body {
-  background-color: $color-background;
+  background-color: $color-bg;
   color: $color-text-primary;
 }
 
