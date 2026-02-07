@@ -1,13 +1,13 @@
 import { useReducer } from "react";
-import { budgetReducer } from "../logic/budgetReducer";
+import { budgetReducer } from "../../logic/budgetReducer";
 import {
   calculateBudgetBalance,
   getTotalIncome,
   getTotalExpenses,
-} from "../logic/budgetEngine";
-import SummaryCard from "../components/SummaryCard";
-import TransactionForm from "../components/TransactionForm";
-import TransactionList from "../components/TransactionList/TransactionList";
+} from "../../logic/budgetEngine";
+import SummaryCard from "../../components/SummaryCard/SummaryCard";
+import TransactionForm from "../../components/TransactionForm/TransactionForm";
+import TransactionList from "../../components/TransactionList/TransactionList";
 
 const initialBudget = {
   month: "2026-01",

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { TRANSACTION_KIND, INCOME_CATEGORIES, EXPENSE_CATEGORIES } from "../logic/transactionConstants";
+import { TRANSACTION_KIND, INCOME_CATEGORIES, EXPENSE_CATEGORIES } from "../../logic/transactionConstants";
 
 const TransactionForm = ({ onSubmit }) => {
   const [transaction, setTransaction] = useState({
