@@ -1,0 +1,77 @@
+@use '../../styles/abstracts/spacing' as *;
+@use '../../styles/abstracts/typography' as *;
+@use '../../styles/abstracts/colors' as *;
+@use '../../styles/abstracts/breakpoints' as *;
+
+/**
+ * Dashboard root
+ */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+  margin-top: 2rem;
+}
+
+/**
+ * Dashboard header
+ */
+.dashboard__header {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  h1 {
+    font-size: $font-xxl;
+    font-weight: $weight-semibold;
+  }
+
+  p {
+    font-size: $font-sm;
+    color: $color-text-secondary;
+  }
+}
+
+/**
+ * Summary section (income / expenses / balance)
+ */
+.dashboard__summary {
+  display: grid;
+  gap: $space-4;
+
+  @media (min-width: map-get($breakpoints, md)) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/**
+ * Main content area
+ * (transactions + form)
+ */
+.dashboard__content {
+  display: grid;
+  gap: $space-6;
+
+  @media (min-width: map-get($breakpoints, lg)) {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+}
+
+/**
+ * Transaction list wrapper
+ */
+.dashboard__transactions {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+/**
+ * Transaction form wrapper
+ */
+.dashboard__form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}

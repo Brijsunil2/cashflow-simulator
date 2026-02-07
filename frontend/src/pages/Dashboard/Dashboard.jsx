@@ -1,3 +1,4 @@
+import "./Dashboard.scss";
 import { useReducer } from "react";
 import { budgetReducer } from "../../logic/budgetReducer";
 import {
@@ -19,27 +20,49 @@ const Dashboard = () => {
   const [budget, dispatch] = useReducer(budgetReducer, initialBudget);
 
   return (
-    <div className="dashboard-container page-container">
-      <h1>CashFlow Dashboard</h1>
+    <div className="page">
+      <div className="page-container dashboard">
+        {/* Header */}
+        <header className="dashboard__header">
+          <h1>CashFlow Dashboard</h1>
+          <p>Monthly income, expenses, and balance overview</p>
+        </header>
 
-      <SummaryCard
-        netBalance={calculateBudgetBalance(budget)}
-        totalIncome={getTotalIncome(budget)}
-        totalExpenses={getTotalExpenses(budget)}
-      />
+        {/* Summary */}
+        <section className="dashboard__summary">
+          <SummaryCard
+            netBalance={calculateBudgetBalance(budget)}
+            totalIncome={getTotalIncome(budget)}
+            totalExpenses={getTotalExpenses(budget)}
+          />
+        </section>
 
-      <TransactionForm
-        onSubmit={(transaction) =>
-          dispatch({ type: "ADD_TRANSACTION", payload: transaction })
-        }
-      />
+        {/* Main content */}
+        <section className="dashboard__content">
+          <div className="dashboard__transactions">
+            <TransactionList
+              transactions={budget.transactions}
+              onDelete={(transactionId) =>
+                dispatch({
+                  type: "REMOVE_TRANSACTION",
+                  payload: transactionId,
+                })
+              }
+            />
+          </div>
 
-      <TransactionList
-        transactions={budget.transactions}
-        onDelete={(transactionId) =>
-          dispatch({ type: "REMOVE_TRANSACTION", payload: transactionId })
-        }
-      />
+          <div className="dashboard__form">
+            <TransactionForm
+              onSubmit={(transaction) =>
+                dispatch({
+                  type: "ADD_TRANSACTION",
+                  payload: transaction,
+                })
+              }
+            />
+          </div>
+        </section>
+      </div>
     </div>
   );
 };
