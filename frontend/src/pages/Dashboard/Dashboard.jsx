@@ -19,7 +19,7 @@ const Dashboard = () => {
   const [budget, dispatch] = useReducer(budgetReducer, initialBudget);
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container page-container">
       <h1>CashFlow Dashboard</h1>
 
       <SummaryCard

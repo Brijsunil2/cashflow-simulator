@@ -2,7 +2,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 
 function App() {
   return (
-    <div>
+    <div className='page'>
       <Dashboard />
     </div>
   );

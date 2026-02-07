@@ -1,0 +1,34 @@
+@use '../abstracts/breakpoints' as *;
+@use '../abstracts/spacing' as *;
+
+/**
+ * Main page container
+ * Controls max width & horizontal spacing
+ */
+.page-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: $space-4;
+
+  /* Tablet */
+  @media (min-width: map-get($breakpoints, md)) {
+    padding-inline: $space-6;
+  }
+
+  /* Desktop */
+  @media (min-width: map-get($breakpoints, lg)) {
+    max-width: 1200px;
+    padding-inline: $space-8;
+  }
+
+  /* Large desktop */
+  @media (min-width: map-get($breakpoints, xl)) {
+    max-width: 1320px;
+  }
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
