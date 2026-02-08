@@ -2,4 +2,26 @@
 
 body {
   font-family: $font-primary;
+  font-size: 1rem;
 }
+
+h1 {
+  font-size: $font-xl;
+  font-weight: $weight-bold;
+}
+
+h2 {
+  font-size: $font-lg;
+  font-weight: $weight-semibold;
+}
+
+h3 {
+  font-size: $font-md;
+  font-weight: $weight-medium;
+}
+
+h4 {
+  font-size: $font-sm;
+  font-weight: $weight-regular;
+}
+
