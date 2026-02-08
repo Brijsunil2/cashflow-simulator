@@ -19,14 +19,6 @@
   white-space: nowrap;
 }
 
-/* Card base */
-@mixin card {
-  background: $color-surface;
-  border: 1px solid $color-border;
-  border-radius: $radius-md;
-  box-shadow: $shadow-sm;
-}
-
 @mixin respond($size) {
   $breakpoint: map-get($breakpoints, $size);
 

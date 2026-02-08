@@ -1,10 +1,21 @@
+import "./SummaryCard.scss";
+
 const SummaryCard = ({ totalIncome, totalExpenses, netBalance }) => {
   return (
-    <div>
-      <p>Net Balance: ${netBalance}</p>
-      <p>Total Income: ${totalIncome}</p>
-      <p>Total Expenses: ${totalExpenses}</p>
-    </div>
+    <section className="summary-card">
+      <div className="card card--balance">
+        <h2 className="card__label">Net Balance</h2>
+        <p className="card__value">${netBalance}</p>
+      </div>
+      <div className="card card--income">
+        <h2 className="card__label">Total Income</h2>
+        <p className="card__value">${totalIncome}</p>
+      </div>
+      <div className="card card--expenses">
+        <h2 className="card__label">Total Expenses</h2>
+        <p className="card__value">${totalExpenses}</p>
+      </div>
+    </section>
   );
 };
 
