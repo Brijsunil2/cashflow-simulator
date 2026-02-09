@@ -36,6 +36,17 @@ const Dashboard = () => {
         </section>
 
         <section className="dashboard__content">
+          <div className="dashboard__form">
+            <TransactionForm
+              onSubmit={(transaction) =>
+                dispatch({
+                  type: "ADD_TRANSACTION",
+                  payload: transaction,
+                })
+              }
+            />
+          </div>
+          
           <div className="dashboard__transactions">
             <TransactionList
               transactions={budget.transactions}
@@ -43,17 +54,6 @@ const Dashboard = () => {
                 dispatch({
                   type: "REMOVE_TRANSACTION",
                   payload: transactionId,
-                })
-              }
-            />
-          </div>
-
-          <div className="dashboard__form">
-            <TransactionForm
-              onSubmit={(transaction) =>
-                dispatch({
-                  type: "ADD_TRANSACTION",
-                  payload: transaction,
                 })
               }
             />

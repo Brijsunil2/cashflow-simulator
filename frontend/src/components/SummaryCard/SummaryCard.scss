@@ -1,0 +1,50 @@
+@use '../../styles/abstracts/spacing' as *;
+@use '../../styles/abstracts/colors' as *;
+@use '../../styles/abstracts/typography' as *;
+
+.summary-card {
+    display: flex;
+    justify-content:center;
+    gap: $space-4;
+    width: 100%;
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        min-width: 150px;
+        background: $color-surface;
+        border: 1px solid $color-border;
+        border-radius: 1rem;
+        padding: $space-4;
+
+        &--balance {
+            background: $color-gray-50;
+        }
+
+        &--income {
+            background: $color-income-soft;
+
+            & .card__value {
+                color: $color-income;
+            }
+        }
+
+        &--expenses {
+            background: $color-expense-soft;
+
+            & .card__value {
+                color: $color-expense;
+            }
+        }
+
+        &__label {
+            font-size: $font-sm;
+            color: $color-text-secondary;
+        }
+
+        &__value {
+            font-size: $font-xl;
+            font-weight: $weight-medium;
+        }
+    }
+}

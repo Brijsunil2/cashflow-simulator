@@ -5,7 +5,7 @@ const SummaryCard = ({ totalIncome, totalExpenses, netBalance }) => {
     <section className="summary-card">
       <div className="card card--balance">
         <h2 className="card__label">Net Balance</h2>
-        <p className="card__value">${netBalance}</p>
+        <p className="card__value">{netBalance < 0 && "-"}${Math.abs(netBalance)}</p>
       </div>
       <div className="card card--income">
         <h2 className="card__label">Total Income</h2>

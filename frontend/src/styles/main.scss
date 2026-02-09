@@ -1,12 +1,12 @@
 /* Abstracts */
-@use './abstracts/breakpoints';
-@use './abstracts/colors';
-@use './abstracts/mixins';
-@use './abstracts/spacing';
-@use './abstracts/typography';
+@use './abstracts/breakpoints' as *;
+@use './abstracts/colors' as *;
+@use './abstracts/mixins' as *;
+@use './abstracts/spacing' as *;
+@use './abstracts/typography' as *;
 
 /* Base */
-@use './base/reset';
-@use './base/fonts';
-@use './base/globals';
-@use './base/layout';
+@use './base/reset' as *;
+@use './base/fonts' as *;
+@use './base/globals' as *;
+@use './base/layout' as *;

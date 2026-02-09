@@ -37,12 +37,8 @@
  * Summary section (income / expenses / balance)
  */
 .dashboard__summary {
-  display: grid;
-  gap: $space-4;
-
-  @media (min-width: map.get($breakpoints, md)) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  display: flex;
+  width: 100%;
 }
 
 /**
@@ -54,7 +50,7 @@
   gap: $space-6;
 
   @media (min-width: map.get($breakpoints, lg)) {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 2fr;
     align-items: start;
   }
 }
