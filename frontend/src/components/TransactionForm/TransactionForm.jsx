@@ -1,3 +1,4 @@
+import "./TransactionForm.scss";
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { TRANSACTION_KIND, INCOME_CATEGORIES, EXPENSE_CATEGORIES } from "../../logic/transactionConstants";
@@ -54,9 +55,7 @@ const TransactionForm = ({ onSubmit }) => {
       : Object.values(EXPENSE_CATEGORIES);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Add Transaction</h2>
-
+    <form className="transaction-form" onSubmit={handleSubmit}>
       <input
         placeholder="Name"
         value={transaction.name}
@@ -90,7 +89,7 @@ const TransactionForm = ({ onSubmit }) => {
         ))}
       </select>
 
-      <button type="submit">Add</button>
+      <button type="submit">Add Transaction</button>
     </form>
   );
 };
