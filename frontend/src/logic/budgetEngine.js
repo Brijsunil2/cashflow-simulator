@@ -1,170 +1,183 @@
-import { TRANSACTION_KIND } from "./transactionConstants";
+import { TRANSACTION_TYPE } from "./transactionConstants";
 
 /**
- * Budget shape
- * @property {string} month - Budget month in YYYY-MM format
- * @property {number} startingBalance - Balance at start of month
- * @property {Array<Transaction>} transactions - All income & expense entries
+ * {
+ *   "userId": "user123",
+ *   "currency": "CAD",
+ *   "transactions": [
+ *     {
+ *       "id": "txn1",
+ *       "date": "2026-01-01",
+ *       "name": "Rent payment",
+ *       "amount": 5000,
+ *       "category": "Rent",
+ *       "type": "Expense",
+ *       "notes": "Paid via bank transfer"
+ *       "createdAt": "2026-01-01T12:00:00Z",
+ *       "updatedAt": "2026-01-01T12:00:00Z"
+ *      },
+ * ]}
  */
 
 /**
  * Transaction shape
  * @property {string} id - Unique transaction identifier
+ * @property {string} date - YYYY-MM-DD
  * @property {string} name - Display name
  * @property {number} amount - Positive numeric value
- * @property {string} date - YYYY-MM-DD
  * @property {string} category - e.g. rent, groceries, salary
- * @property {'income' | 'expense'} kind - Direction of money
+ * @property {'income' | 'expense'} type - Direction of money
+ * @property {string} notes - Optional freeform text
+ * @property {string} createdAt - ISO timestamp of creation
+ * @property {string} updatedAt - ISO timestamp of last update
  */
 
 /**
- * Adds a new transaction to the budget
- * Returns a new budget object (does not mutate)
+ * Adds a new transaction
+ * Automatically sets createdAt and updatedAt
  *
- * @param {Budget} budget
+ * @param {Object} state
  * @param {Transaction} transaction
- * @returns {Budget} updated budget
+ * @returns {Object} updated state
  */
-function addTransactionToBudget(budget, transaction) {
+function addTransaction(state, transaction) {
+  const now = new Date().toISOString();
+
+  const newTransaction = {
+    ...transaction,
+    createdAt: now,
+    updatedAt: now,
+  };
+
   return {
-    ...budget,
-    transactions: [...budget.transactions, transaction],
+    ...state,
+    transactions: [...state.transactions, newTransaction],
   };
 }
 
 /**
  * Removes a transaction by ID
- * Returns a new budget object
  *
- * @param {Budget} budget
+ * @param {Object} state
  * @param {string} transactionId
- * @returns {Budget} updated budget
+ * @returns {Object} updated state
  */
-function removeTransactionFromBudget(budget, transactionId) {
+function removeTransaction(state, transactionId) {
   return {
-    ...budget,
-    transactions: budget.transactions.filter(
+    ...state,
+    transactions: state.transactions.filter(
       (transaction) => transaction.id !== transactionId,
     ),
   };
 }
 
 /**
- * Updates an existing transaction by ID
- * Replaces the matching transaction
+ * Updates an existing transaction
+ * Automatically updates updatedAt timestamp
  *
- * @param {Budget} budget
+ * @param {Object} state
  * @param {Transaction} updatedTransaction
- * @returns {Budget} updated budget
+ * @returns {Object} updated state
  */
-function updateTransactionInBudget(budget, updatedTransaction) {
+function updateTransaction(state, updatedTransaction) {
+  const now = new Date().toISOString();
+
   return {
-    ...budget,
-    transactions: budget.transactions.map((transaction) =>
+    ...state,
+    transactions: state.transactions.map((transaction) =>
       transaction.id === updatedTransaction.id
-        ? updatedTransaction
+        ? { ...updatedTransaction, updatedAt: now }
         : transaction,
     ),
   };
 }
 
 /**
- * Returns transactions matching a given category
+ * Filters transactions by category
  *
- * @param {Budget} budget
+ * @param {Object} state
  * @param {string} category
  * @returns {Array<Transaction>}
  */
-function getTransactionsByCategory(budget, category) {
-  return budget.transactions.filter(
+function getTransactionsByCategory(state, category) {
+  return state.transactions.filter(
     (transaction) => transaction.category === category,
   );
 }
 
 /**
- * Filters transactions by kind (income or expense)
+ * Filters transactions by type (income or expense)
  *
- * @param {Budget} budget
- * @param {'income' | 'expense'} kind
+ * @param {Object} state
+ * @param {'income' | 'expense'} type
  * @returns {Array<Transaction>}
  */
-function getTransactionsByKind(budget, kind) {
-  return budget.transactions.filter((transaction) => transaction.kind === kind);
+function getTransactionsByType(state, type) {
+  return state.transactions.filter((transaction) => transaction.type === type);
 }
 
 /**
- * Calculates total income for the budget
+ * Calculates total income
  *
- * @param {Budget} budget
- * @returns {number} total income
+ * @param {Object} state
+ * @returns {number}
  */
-function getTotalIncome(budget) {
-  const incomeTransactions = getTransactionsByKind(
-    budget,
-    TRANSACTION_KIND.INCOME,
-  );
-  return incomeTransactions.reduce(
+function getTotalIncome(state) {
+  return getTransactionsByType(state, "income").reduce(
     (total, transaction) => total + transaction.amount,
     0,
   );
 }
 
 /**
- * Calculates total expenses for the budget
+ * Calculates total expenses
  *
- * @param {Budget} budget
- * @returns {number} total expenses
+ * @param {Object} state
+ * @returns {number}
  */
-function getTotalExpenses(budget) {
-  const expenseTransactions = getTransactionsByKind(
-    budget,
-    TRANSACTION_KIND.EXPENSE,
-  );
-  return expenseTransactions.reduce(
+function getTotalExpenses(state) {
+  return getTransactionsByType(state, "expense").reduce(
     (total, transaction) => total + transaction.amount,
     0,
   );
 }
 
 /**
- * Calculates the final balance for the budget
- * startingBalance + totalIncome - totalExpenses
+ * Calculates net balance (income - expenses)
  *
- * @param {Budget} budget
- * @returns {number} final balance for the month
+ * @param {Object} state
+ * @returns {number}
  */
-function calculateBudgetBalance(budget) {
-  const totalIncome = getTotalIncome(budget);
-  const totalExpenses = getTotalExpenses(budget);
-  return budget.startingBalance + totalIncome - totalExpenses;
+function calculateNetBalance(state) {
+  return getTotalIncome(state) - getTotalExpenses(state);
 }
 
 /**
- * Computes aggregated budget data for display
+ * Returns aggregated summary
  *
- * @param {Budget} budget
+ * @param {Object} state
  * @returns {{
  *   totalIncome: number,
  *   totalExpenses: number,
  *   netBalance: number
  * }}
  */
-function getMonthlySummary(budget) {
+function getSummary(state) {
   return {
-    totalIncome: getTotalIncome(budget),
-    totalExpenses: getTotalExpenses(budget),
-    netBalance: calculateBudgetBalance(budget),
+    totalIncome: getTotalIncome(state),
+    totalExpenses: getTotalExpenses(state),
+    netBalance: calculateNetBalance(state),
   };
 }
 
 export {
-  addTransactionToBudget,
-  removeTransactionFromBudget,
-  updateTransactionInBudget,
+  addTransaction,
+  removeTransaction,
+  updateTransaction,
   getTransactionsByCategory,
-  getTransactionsByKind,
+  getTransactionsByType,
   getTotalIncome,
   getTotalExpenses,
-  calculateBudgetBalance,
-  getMonthlySummary,
+  calculateNetBalance,
+  getSummary,
 };

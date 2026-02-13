@@ -10,14 +10,18 @@ import SummaryCard from "../../components/SummaryCard/SummaryCard";
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionList/TransactionList";
 
-const initialBudget = {
-  month: "2026-01",
-  startingBalance: 0,
-  transactions: [],
+const initialState = {
+  budgets: {
+    "2026-01": {
+      startingBalance: 0,
+      transactions: [],
+    },
+  },
+  currentMonth: "2026-01",
 };
 
 const Dashboard = () => {
-  const [budget, dispatch] = useReducer(budgetReducer, initialBudget);
+  const [state, dispatch] = useReducer(budgetReducer, initialState);
 
   return (
     <div className="page">
@@ -29,9 +33,9 @@ const Dashboard = () => {
 
         <section className="dashboard__summary">
           <SummaryCard
-            netBalance={calculateBudgetBalance(budget)}
-            totalIncome={getTotalIncome(budget)}
-            totalExpenses={getTotalExpenses(budget)}
+            netBalance={calculateBudgetBalance(initialState.budgets[initialState.currentMonth])}
+            totalIncome={getTotalIncome(initialState.budgets[initialState.currentMonth])}
+            totalExpenses={getTotalExpenses(initialState.budgets[initialState.currentMonth])}
           />
         </section>
 
@@ -46,10 +50,10 @@ const Dashboard = () => {
               }
             />
           </div>
-          
+
           <div className="dashboard__transactions">
             <TransactionList
-              transactions={budget.transactions}
+              transactions={initialState.budgets[initialState.currentMonth].transactions}
               onDelete={(transactionId) =>
                 dispatch({
                   type: "REMOVE_TRANSACTION",
