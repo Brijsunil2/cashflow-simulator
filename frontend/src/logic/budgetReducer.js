@@ -1,7 +1,7 @@
 import {
-  addTransactionToBudget,
-  removeTransactionFromBudget,
-  updateTransactionInBudget,
+  addTransaction,
+  removeTransaction,
+  updateTransaction,
 } from "./budgetEngine";
 
 /** 
@@ -23,11 +23,11 @@ export const BUDGET_ACTIONS = {
 export function budgetReducer(state, action) {
   switch (action.type) {
     case BUDGET_ACTIONS.ADD_TRANSACTION:
-      return addTransactionToBudget(state, action.payload);
+      return addTransaction(state, action.payload);
     case BUDGET_ACTIONS.REMOVE_TRANSACTION:
-      return removeTransactionFromBudget(state, action.payload);
+      return removeTransaction(state, action.payload);
     case BUDGET_ACTIONS.UPDATE_TRANSACTION:
-      return updateTransactionInBudget(state, action.payload);
+      return updateTransaction(state, action.payload);
     default:
       console.warn(`Unhandled action type: ${action.type}`);
       return state;
