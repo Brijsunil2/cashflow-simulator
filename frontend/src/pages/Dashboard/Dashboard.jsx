@@ -14,7 +14,6 @@ const initialState = {
 
 const Dashboard = () => {
   const [state, dispatch] = useReducer(budgetReducer, initialState);
-  const summary = selectSummary(initialState);
 
   return (
     <div className="page">
@@ -26,9 +25,9 @@ const Dashboard = () => {
 
         <section className="dashboard__summary">
           <SummaryCard
-            netBalance={summary.netBalance}
-            totalIncome={summary.totalIncome}
-            totalExpenses={summary.totalExpenses}
+            netBalance={selectSummary(state).netBalance}
+            totalIncome={selectSummary(state).totalIncome}
+            totalExpenses={selectSummary(state).totalExpenses}
           />
         </section>
 
@@ -44,11 +43,9 @@ const Dashboard = () => {
             />
           </div>
 
-          {/* <div className="dashboard__transactions">
+          <div className="dashboard__transactions">
             <TransactionList
-              transactions={
-                initialState.budgets[initialState.currentMonth].transactions
-              }
+              transactions={state.transactions}
               onDelete={(transactionId) =>
                 dispatch({
                   type: "REMOVE_TRANSACTION",
@@ -56,7 +53,7 @@ const Dashboard = () => {
                 })
               }
             />
-          </div> */}
+          </div>
         </section>
       </div>
     </div>

@@ -1,7 +1,7 @@
 const TransactionItem = ({ transaction, onDelete }) => {
   return (
     <li
-      className={`transaction-item ${transaction.kind.toLowerCase() == "income" ? "transaction-item--income" : "transaction-item--expense"}`}
+      className={`transaction-item ${transaction.type.toLowerCase() == "income" ? "transaction-item--income" : "transaction-item--expense"}`}
     >
       <span>{transaction.date}</span>
       <span>{transaction.name}</span>
