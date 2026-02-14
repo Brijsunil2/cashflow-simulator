@@ -1,50 +1,60 @@
-@use '../../styles/abstracts/spacing' as *;
-@use '../../styles/abstracts/colors' as *;
-@use '../../styles/abstracts/typography' as *;
+@use "../../styles/abstracts/spacing" as *;
+@use "../../styles/abstracts/colors" as *;
+@use "../../styles/abstracts/typography" as *;
+@use "../../styles/abstracts/breakpoints" as *;
+@use "sass:map";
 
 .summary-card {
-    display: flex;
-    justify-content:center;
-    gap: $space-4;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: $space-4;
+  width: 100%;
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  padding: 1.5rem;
+  border-radius: 8px;
 
-    .card {
-        display: flex;
+    @media (max-width: map.get($breakpoints, sm)) {
         flex-direction: column;
-        min-width: 150px;
-        background: $color-surface;
-        border: 1px solid $color-border;
-        border-radius: 1rem;
-        padding: $space-4;
-
-        &--balance {
-            background: $color-gray-50;
-        }
-
-        &--income {
-            background: $color-income-soft;
-
-            & .card__value {
-                color: $color-income;
-            }
-        }
-
-        &--expenses {
-            background: $color-expense-soft;
-
-            & .card__value {
-                color: $color-expense;
-            }
-        }
-
-        &__label {
-            font-size: $font-sm;
-            color: $color-text-secondary;
-        }
-
-        &__value {
-            font-size: $font-xl;
-            font-weight: $weight-medium;
-        }
     }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    background: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: 1rem;
+    padding: $space-4;
+
+    &--balance {
+      background: $color-gray-50;
+    }
+
+    &--income {
+      background: $color-income-soft;
+
+      & .card__value {
+        color: $color-income;
+      }
+    }
+
+    &--expenses {
+      background: $color-expense-soft;
+
+      & .card__value {
+        color: $color-expense;
+      }
+    }
+
+    &__label {
+      font-size: $font-sm;
+      color: $color-text-secondary;
+    }
+
+    &__value {
+      font-size: $font-xl;
+      font-weight: $weight-medium;
+    }
+  }
 }
