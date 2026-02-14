@@ -29,3 +29,15 @@ export const EXPENSE_CATEGORIES = {
   DEBT: 'debt',
   OTHER: 'other',
 };
+
+export const INITIAL_TRANSACTION = {
+  id: "",
+  date: new Date().toISOString().split("T")[0],
+  name: "",
+  amount: 0,
+  category: "",
+  type: TRANSACTION_TYPE.INCOME,
+  notes: "",
+  createdAt: "",
+  updatedAt: "",
+};
