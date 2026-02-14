@@ -25,7 +25,7 @@ export const selectTransactionsByType = (state, type) =>
  * Calculates total income
  */
 export const selectTotalIncome = (state) =>
-  selectTransactionsByType(state, "income").reduce(
+  selectTransactionsByType(state, TRANSACTION_TYPE.INCOME).reduce(
     (total, transaction) => total + transaction.amount,
     0,
   );
@@ -34,7 +34,7 @@ export const selectTotalIncome = (state) =>
  * Calculates total expenses
  */
 export const selectTotalExpenses = (state) =>
-  selectTransactionsByType(state, "expense").reduce(
+  selectTransactionsByType(state, TRANSACTION_TYPE.EXPENSE).reduce(
     (total, transaction) => total + transaction.amount,
     0,
   );
