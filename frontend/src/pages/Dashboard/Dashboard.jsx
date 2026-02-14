@@ -32,7 +32,13 @@ const Dashboard = () => {
         </section>
 
         <section className="dashboard__content">
-          <div className="dashboard__form">
+          <div className="dashboard__subheader">
+            <button className="" onClick={console.log("Add Transaction")}>
+              + Add Transaction
+            </button>
+          </div>
+
+          {/* <div className="dashboard__form">
             <TransactionForm
               onSubmit={(transaction) =>
                 dispatch({
@@ -41,18 +47,25 @@ const Dashboard = () => {
                 })
               }
             />
-          </div>
+          </div> */}
+          <div className="dashboard__content-body">
+            <div className="dashboard_charts">
+              <div className="dashboard__charts--line-graph">Line Graph</div>
 
-          <div className="dashboard__transactions">
-            <TransactionList
-              transactions={state.transactions}
-              onDelete={(transactionId) =>
-                dispatch({
-                  type: "REMOVE_TRANSACTION",
-                  payload: transactionId,
-                })
-              }
-            />
+              <div className="dashboard__charts--pie-chart">Pie Chart</div>
+            </div>
+
+            <div className="dashboard__transactions">
+              <TransactionList
+                transactions={state.transactions}
+                onDelete={(transactionId) =>
+                  dispatch({
+                    type: "REMOVE_TRANSACTION",
+                    payload: transactionId,
+                  })
+                }
+              />
+            </div>
           </div>
         </section>
       </div>

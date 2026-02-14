@@ -1,7 +1,7 @@
-@use '../../styles/abstracts/spacing' as *;
-@use '../../styles/abstracts/typography' as *;
-@use '../../styles/abstracts/colors' as *;
-@use '../../styles/abstracts/breakpoints' as *;
+@use "../../styles/abstracts/spacing" as *;
+@use "../../styles/abstracts/typography" as *;
+@use "../../styles/abstracts/colors" as *;
+@use "../../styles/abstracts/breakpoints" as *;
 @use "sass:map";
 
 /**
@@ -12,63 +12,82 @@
   flex-direction: column;
   gap: $space-6;
   margin-top: 2rem;
-}
+  margin-bottom: 200px;
 
-/**
- * Dashboard header
- */
-.dashboard__header {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+  button {
+    background-color: $color-primary-600;
+    color: #fff;
+    border: none;
+    padding: $space-2 $space-4;
+    border-radius: 4px;
+    cursor: pointer;
 
-  h1 {
-    font-size: $font-xxl;
-    font-weight: $weight-semibold;
+    &:hover {
+      background-color: $color-primary-700;
+    }
   }
 
-  p {
-    font-size: $font-sm;
-    color: $color-text-secondary;
+  &__header {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    h1 {
+      font-size: $font-xxl;
+      font-weight: $weight-semibold;
+    }
+
+    p {
+      font-size: $font-sm;
+      color: $color-text-secondary;
+    }
   }
-}
 
-/**
- * Summary section (income / expenses / balance)
- */
-.dashboard__summary {
-  display: flex;
-  width: 100%;
-}
-
-/**
- * Main content area
- * (transactions + form)
- */
-.dashboard__content {
-  display: grid;
-  gap: $space-6;
-
-  @media (min-width: map.get($breakpoints, lg)) {
-    grid-template-columns: 1fr 2fr;
-    align-items: start;
+  &__summary {
+    display: flex;
+    width: 100%;
   }
-}
 
-/**
- * Transaction list wrapper
- */
-.dashboard__transactions {
-  display: flex;
-  flex-direction: column;
-  gap: $space-4;
-}
+  &__content {
+    background-color: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: 8px;
 
-/**
- * Transaction form wrapper
- */
-.dashboard__form {
-  display: flex;
-  flex-direction: column;
-  gap: $space-4;
+    &-body {
+      padding: $space-6;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: $space-6;
+
+      @media (max-width: map.get($breakpoints, lg)) {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+    }
+  }
+
+  &__subheader {
+    display: flex;
+    justify-content: space-between;
+    grid-column: span 2;
+    padding: $space-4 $space-6;
+    border-bottom: 1px solid $color-border;
+    width: 100%;
+
+    button {
+      margin-left: auto;
+    }
+  }
+
+  &__transactions {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+  }
 }
