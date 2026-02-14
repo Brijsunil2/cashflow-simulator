@@ -36,7 +36,7 @@ export const INITIAL_TRANSACTION = {
   name: "",
   amount: 0,
   category: "",
-  type: TRANSACTION_TYPE.INCOME,
+  type: "",
   notes: "",
   createdAt: "",
   updatedAt: "",

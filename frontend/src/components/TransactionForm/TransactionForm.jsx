@@ -9,12 +9,7 @@ import {
 } from "../../logic/transactionConstants";
 
 const TransactionForm = ({ onSubmit }) => {
-  const [transaction, setTransaction] = useState({
-    name: "",
-    amount: "",
-    type: TRANSACTION_TYPE.INCOME,
-    category: "",
-  });
+  const [transaction, setTransaction] = useState(INITIAL_TRANSACTION);
 
   function handleChange(field, value) {
     setTransaction((prev) => ({
@@ -66,50 +61,88 @@ const TransactionForm = ({ onSubmit }) => {
 
   return (
     <form className="transaction-form" onSubmit={handleSubmit}>
-      <input
-        placeholder="Name"
-        value={transaction.name}
-        onChange={(e) => handleChange("name", e.target.value)}
-      />
+      <div className="form-field">
+        <input
+          placeholder=" "
+          value={transaction.name}
+          onChange={(e) => handleChange("name", e.target.value)}
+          required={true}
+        />
+        <label>
+          Name <span>*</span>
+        </label>
+      </div>
 
-      <input
-        type="date"
-        value={transaction.date || today}
-        onChange={(e) => handleChange("date", e.target.value)}
-      />
+      <div className="form-field">
+        <input
+          type="date"
+          placeholder=" "
+          value={transaction.date || today}
+          onChange={(e) => handleChange("date", e.target.value)}
+          required={true}
+        />
+        <label>
+          Date <span>*</span>
+        </label>
+      </div>
 
-      <input
-        type="number"
-        placeholder="Amount"
-        value={transaction.amount}
-        onChange={(e) => handleChange("amount", e.target.value)}
-      />
+      <div className="form-field amount-field">
+        <span className="currency-symbol">$</span>
+        <input
+          type="number"
+          name="amount"
+          value={transaction.amount}
+          onChange={(e) => handleChange("amount", e.target.value)}
+          min={0}
+          required ={true}
+        />
+        <label>
+          Amount <span>*</span>
+        </label>
+      </div>
 
-      <select
-        value={transaction.type}
-        onChange={(e) => handleTypeChange(e.target.value)}
-      >
-        <option value={TRANSACTION_TYPE.INCOME}>Income</option>
-        <option value={TRANSACTION_TYPE.EXPENSE}>Expense</option>
-      </select>
+      <div className="form-field">
+        <select
+          value={transaction.type}
+          onChange={(e) => handleTypeChange(e.target.value)}
+          required={true}
+        >
+          <option value="" disabled hidden></option>
+          <option value={TRANSACTION_TYPE.INCOME}>Income</option>
+          <option value={TRANSACTION_TYPE.EXPENSE}>Expense</option>
+        </select>
+        <label>
+          Type <span>*</span>
+        </label>
+      </div>
 
-      <select
-        value={transaction.category}
-        onChange={(e) => handleChange("category", e.target.value)}
-      >
-        <option value="">Select category</option>
-        {categories.map((cat) => (
-          <option key={cat} value={cat}>
-            {cat}
-          </option>
-        ))}
-      </select>
+      <div className="form-field">
+        <select
+          value={transaction.category}
+          onChange={(e) => handleChange("category", e.target.value)}
+          required={true}
+        >
+          <option value="" disabled hidden></option>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+        <label>
+          Category <span>*</span>
+        </label>
+      </div>
 
-      <textarea
-        placeholder="Notes (optional)"
-        value={transaction.notes}
-        onChange={(e) => handleChange("notes", e.target.value)}
-      />
+      <div className="form-field">
+        <textarea
+          placeholder=" "
+          value={transaction.notes}
+          onChange={(e) => handleChange("notes", e.target.value)}
+          required={false}
+        />
+        <label>Notes</label>
+      </div>
 
       <button type="submit">Add Transaction</button>
     </form>
