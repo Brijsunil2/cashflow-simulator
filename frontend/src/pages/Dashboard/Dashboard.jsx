@@ -6,11 +6,12 @@ import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionList/TransactionList";
 import { selectSummary } from "../../logic/budgetSelector";
 import Popup from "../../components/Popup/Popup";
+import { testTransactions } from "../../test/testTransactions";
 
 const initialState = {
   userId: "user123",
   currency: "CAD",
-  transactions: [],
+  transactions: import.meta.env.VITE_APP_ENV === "development" ? testTransactions : [],
 };
 
 const Dashboard = () => {
