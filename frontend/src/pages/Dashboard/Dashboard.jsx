@@ -5,6 +5,7 @@ import SummaryCard from "../../components/SummaryCard/SummaryCard";
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionList/TransactionList";
 import { selectSummary } from "../../logic/budgetSelector";
+import Popup from "../../components/Popup/Popup";
 
 const initialState = {
   userId: "user123",
@@ -37,6 +38,14 @@ const Dashboard = () => {
               + Add Transaction
             </button>
           </div>
+
+          <Popup
+            isOpen={true}
+            onClose={() => console.log("Close Popup")}
+            title="Add New Transaction"
+          >
+            test
+          </Popup>
 
           {/* <div className="dashboard__form">
             <TransactionForm
