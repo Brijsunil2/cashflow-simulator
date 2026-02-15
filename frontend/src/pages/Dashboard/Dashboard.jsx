@@ -1,5 +1,5 @@
 import "./Dashboard.scss";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { budgetReducer } from "../../logic/budgetReducer";
 import SummaryCard from "../../components/SummaryCard/SummaryCard";
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
@@ -15,6 +15,7 @@ const initialState = {
 
 const Dashboard = () => {
   const [state, dispatch] = useReducer(budgetReducer, initialState);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   return (
     <div className="page">
@@ -34,34 +35,33 @@ const Dashboard = () => {
 
         <section className="dashboard__content">
           <div className="dashboard__subheader">
-            <button className="" onClick={console.log("Add Transaction")}>
+            <button className="" onClick={() => setIsPopupOpen(true)}>
               + Add Transaction
             </button>
           </div>
 
           <Popup
-            isOpen={true}
-            onClose={() => console.log("Close Popup")}
+            isOpen={isPopupOpen}
+            onClose={() => setIsPopupOpen(false)}
             title="Add New Transaction"
           >
-            test
+            <div className="dashboard__form">
+              <TransactionForm
+                onSubmit={(transaction) => {
+                  setIsPopupOpen(false);
+                  dispatch({
+                    type: "ADD_TRANSACTION",
+                    payload: transaction,
+                  });
+                }}
+              />
+            </div>
           </Popup>
 
-          {/* <div className="dashboard__form">
-            <TransactionForm
-              onSubmit={(transaction) =>
-                dispatch({
-                  type: "ADD_TRANSACTION",
-                  payload: transaction,
-                })
-              }
-            />
-          </div> */}
           <div className="dashboard__content-body">
             <div className="dashboard_charts">
-              <div className="dashboard__charts--line-graph">Line Graph</div>
-
               <div className="dashboard__charts--pie-chart">Pie Chart</div>
+              <div className="dashboard__charts--line-graph">Line Graph</div>
             </div>
 
             <div className="dashboard__transactions">
