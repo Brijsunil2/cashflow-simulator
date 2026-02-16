@@ -1,31 +1,151 @@
 @use "../../styles/abstracts/colors" as *;
 @use "../../styles/abstracts/typography" as *;
+@use "../../styles/abstracts/spacing" as *;
 
 .transaction-list-section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1rem;
+}
 
-  .transaction-list {
-    margin: 1rem 0;
+.transaction-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.transaction-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-date {
+  padding: $space-1;
+  margin-top: $space-5;
+  border-bottom: 1px solid $color-border;
+  color: $color-text-secondary;
+  font-size: $font-sm;
+  text-align: end;
+  font-weight: $weight-semibold;
+}
+
+/* =========================
+   TRANSACTION ITEM
+========================= */
+
+.transaction-item {
+  border-top: 1px solid $color-border;
+  padding: $space-2 0;
+  display: grid;
+  grid-template-rows: auto 0fr;
+  transition: grid-template-rows 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.2s ease;
+
+  &.expanded {
+    grid-template-rows: auto 1fr;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    align-items: center;
+  }
+
+  &__name {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: $weight-semibold;
+  }
 
-    .transaction-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 12px 8px;
+  &__amount {
+    text-align: right;
+    padding-right: 0.5rem;
+    font-weight: $weight-semibold;
 
-      &--income {
-        border-left: 4px solid $color-income;
-        
-      }
+    &.income {
+      color: $color-income;
+    }
 
-      &--expense {
-        border-left: 4px solid $color-expense;
-      }
+    &.expense {
+      color: $color-expense;
     }
   }
+
+  &__actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  &__details {
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    font-size: $font-sm;
+    padding: 0 1rem;
+    padding-bottom: 1rem;
+
+    .expanded & {
+      opacity: 1;
+      padding-top: 1rem;
+    }
+  }
+}
+
+.icon-delete {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.icon-expand {
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+.transaction-type-icon {
+  &.income {
+    color: $color-income;
+  }
+
+  &.expense {
+    color: $color-expense;
+  }
+}
+
+.transaction-type {
+  font-weight: $weight-semibold;
+
+  &.income {
+    color: $color-income;
+  }
+
+  &.expense {
+    color: $color-expense;
+  }
+}
+
+.transaction-dates {
+  font-size: $font-xs;
+  color: $color-text-secondary;
+  margin-top: $space-2;
+}
+
+.transaction-list-empty {
+  text-align: center;
+  opacity: 0.6;
+  padding: $space-4;
 }

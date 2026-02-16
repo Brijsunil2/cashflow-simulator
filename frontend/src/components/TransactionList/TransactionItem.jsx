@@ -1,15 +1,75 @@
-const TransactionItem = ({ transaction, onDelete }) => {
-  return (
-    <li
-      className={`transaction-item ${transaction.type.toLowerCase() == "income" ? "transaction-item--income" : "transaction-item--expense"}`}
-    >
-      <span>{transaction.date}</span>
-      <span>{transaction.name}</span>
-      <span>{transaction.category}</span>
-      <span>${transaction.amount}</span>
+import { FaCircle } from "react-icons/fa";
+import { useState } from "react";
+import { RiDeleteBin6Fill } from "react-icons/ri";
+import { IoIosArrowDown } from "react-icons/io";
+import { TRANSACTION_TYPE } from "../../logic/transactionConstants";
+import { formatLabel } from "../../util/stringManipulation";
 
-      <button onClick={() => onDelete(transaction.id)}>Delete</button>
-    </li>
+const TransactionItem = ({ transaction, onDelete }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const isIncome = transaction.type === TRANSACTION_TYPE.INCOME;
+
+  return (
+    <div className={`transaction-item ${isExpanded ? "expanded" : ""}`}>
+      <div className="transaction-item__row">
+        <span className="transaction-item__name">
+          <FaCircle
+            className={`transaction-type-icon ${
+              isIncome ? "income" : "expense"
+            }`}
+          />
+          {transaction.name}
+        </span>
+
+        <span
+          className={`transaction-item__amount ${
+            isIncome ? "income" : "expense"
+          }`}
+        >
+          {`${isIncome ? "" : "-"}$${transaction.amount}`}
+        </span>
+
+        <span className="transaction-item__actions">
+          <RiDeleteBin6Fill
+            className="icon-delete"
+            onClick={() => onDelete(transaction.id)}
+          />
+
+          <IoIosArrowDown
+            className={`icon-expand ${isExpanded ? "rotated" : ""}`}
+            onClick={() => setIsExpanded(!isExpanded)}
+          />
+        </span>
+      </div>
+
+      <div className="transaction-item__details">
+        <div className="details-header">
+          <p>
+            <strong>Category:</strong> {formatLabel(transaction.category)}
+          </p>
+
+          <p className={`transaction-type ${isIncome ? "income" : "expense"}`}>
+            {formatLabel(transaction.type)}
+          </p>
+        </div>
+
+        <div className="transaction-notes">
+          <p>{transaction.notes || "No additional notes."}</p>
+        </div>
+
+        <div className="transaction-dates">
+          <p>
+            <strong>Created:</strong>{" "}
+            {new Date(transaction.createdAt).toLocaleString()}
+          </p>
+          <p>
+            <strong>Updated:</strong>{" "}
+            {new Date(transaction.updatedAt).toLocaleString()}
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 
