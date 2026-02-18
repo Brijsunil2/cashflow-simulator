@@ -34,16 +34,10 @@
 ========================= */
 
 .transaction-item {
+  position: relative;
   border-top: 1px solid $color-border;
   padding: $space-2 0;
-  display: grid;
-  grid-template-rows: auto 0fr;
-  transition: grid-template-rows 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-              background-color 0.2s ease;
-
-  &.expanded {
-    grid-template-rows: auto 1fr;
-  }
+  transition: background-color 0.2s ease;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.02);
@@ -53,6 +47,7 @@
     display: grid;
     grid-template-columns: 2fr 1fr auto;
     align-items: center;
+    cursor: pointer;
   }
 
   &__name {
@@ -82,20 +77,66 @@
     align-items: center;
   }
 
-  &__details {
-    overflow: hidden;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    font-size: $font-sm;
-    padding: 0 1rem;
-    padding-bottom: 1rem;
+  /* =========================
+     DETAILS PANEL
+  ========================= */
 
-    .expanded & {
-      opacity: 1;
-      padding-top: 1rem;
-    }
+  &__details {
+    font-size: $font-sm;
+    padding: 1rem;
+    background: white;
+    border: 1px solid $color-border;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  /* =========================
+     MOBILE BEHAVIOR
+  ========================= */
+
+  &.mobile-open &__details {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 }
+
+/* =========================
+   DESKTOP HOVER POPUP
+========================= */
+
+@media (hover: hover) {
+  .transaction-item__details {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 320px;
+    z-index: 10;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .transaction-item:hover .transaction-item__details {
+    opacity: 1;
+    transform: translateY(8px);
+    pointer-events: auto;
+  }
+
+  /* Disable mobile open class on desktop */
+  .transaction-item.mobile-open .transaction-item__details {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* =========================
+   ICONS
+========================= */
 
 .icon-delete {
   cursor: pointer;
@@ -104,15 +145,6 @@
 
   &:hover {
     opacity: 0.5;
-  }
-}
-
-.icon-expand {
-  cursor: pointer;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &.rotated {
-    transform: rotate(180deg);
   }
 }
 

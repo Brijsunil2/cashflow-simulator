@@ -1,17 +1,26 @@
 import { FaCircle } from "react-icons/fa";
 import { useState } from "react";
 import { RiDeleteBin6Fill } from "react-icons/ri";
-import { IoIosArrowDown } from "react-icons/io";
 import { TRANSACTION_TYPE } from "../../logic/transactionConstants";
 import { formatLabel } from "../../util/stringManipulation";
 
 const TransactionItem = ({ transaction, onDelete }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const isIncome = transaction.type === TRANSACTION_TYPE.INCOME;
 
+  const toggleMobileDetails = () => {
+    // Only toggle on small screens
+    if (window.matchMedia("(hover: none)").matches) {
+      setIsOpen((prev) => !prev);
+    }
+  };
+
   return (
-    <div className={`transaction-item ${isExpanded ? "expanded" : ""}`}>
+    <div
+      className={`transaction-item ${isOpen ? "mobile-open" : ""}`}
+      onClick={toggleMobileDetails}
+    >
       <div className="transaction-item__row">
         <span className="transaction-item__name">
           <FaCircle
@@ -33,12 +42,10 @@ const TransactionItem = ({ transaction, onDelete }) => {
         <span className="transaction-item__actions">
           <RiDeleteBin6Fill
             className="icon-delete"
-            onClick={() => onDelete(transaction.id)}
-          />
-
-          <IoIosArrowDown
-            className={`icon-expand ${isExpanded ? "rotated" : ""}`}
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(transaction.id);
+            }}
           />
         </span>
       </div>

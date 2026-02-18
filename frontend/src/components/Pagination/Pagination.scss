@@ -1,0 +1,46 @@
+@use "../../styles/abstracts/colors" as *;
+@use "../../styles/abstracts/typography" as *;
+
+.pagination {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pagination__arrow,
+.pagination__number {
+  background: none;
+  border: 1px solid $color-border;
+  padding: 0.35rem 0.75rem;
+  font-size: $font-sm;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease,
+              border-color 0.2s ease,
+              color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.pagination__number.active {
+  background-color: $color-border;
+  color: white;
+  border-color: $color-border;
+  font-weight: $weight-semibold;
+}
+
+.pagination__ellipsis {
+  padding: 0 0.4rem;
+  font-size: $font-sm;
+  color: $color-text-secondary;
+}

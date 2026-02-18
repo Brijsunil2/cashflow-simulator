@@ -11,7 +11,8 @@ import { testTransactions } from "../../test/testTransactions";
 const initialState = {
   userId: "user123",
   currency: "CAD",
-  transactions: import.meta.env.VITE_APP_ENV === "development" ? testTransactions : [],
+  transactions:
+    import.meta.env.VITE_APP_ENV === "development" ? testTransactions : [],
 };
 
 const Dashboard = () => {
@@ -60,10 +61,12 @@ const Dashboard = () => {
           </Popup>
 
           <div className="dashboard__content-body">
-            <div className="dashboard_charts">
-              <div className="dashboard__charts--pie-chart">Pie Chart</div>
-              <div className="dashboard__charts--line-graph">Line Graph</div>
-            </div>
+            {state.transactions.length > 0 && (
+              <div className="dashboard_charts">
+                <div className="dashboard__charts--pie-chart">Pie Chart</div>
+                <div className="dashboard__charts--line-graph">Line Graph</div>
+              </div>
+            )}
 
             <div className="dashboard__transactions">
               <TransactionList
