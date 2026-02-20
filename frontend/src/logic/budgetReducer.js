@@ -1,3 +1,4 @@
+import { createTransaction } from "./budgetUtil";
 /**
  * - ADD_TRANSACTION: adds a new transaction.
  * - REMOVE_TRANSACTION: removes a transaction by ID.
@@ -46,20 +47,13 @@ export function budgetReducer(state, action) {
   switch (action.type) {
     // ADD_TRANSACTION: adds a new transaction.
     case BUDGET_ACTIONS.ADD_TRANSACTION: {
-      const now = new Date().toISOString();
-
-      const newTransaction = {
-        ...action.payload,
-        createdAt: now,
-        updatedAt: now,
-      };
+      const newTransaction = createTransaction(action.payload);
 
       return {
         ...state,
         transactions: [...state.transactions, newTransaction],
       };
     }
-
     // REMOVE_TRANSACTION: removes a transaction by ID.
     case BUDGET_ACTIONS.REMOVE_TRANSACTION: {
       return {
