@@ -3,7 +3,7 @@ import TransactionItem from "./TransactionItem";
 import Pagination from "../Pagination/Pagination";
 import { usePagination } from "../../logic/usePagination";
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 8;
 
 const TransactionList = ({ transactions, onDelete }) => {
   const {

@@ -105,6 +105,12 @@
     transform: translateY(0);
     pointer-events: auto;
   }
+
+  .delete-transaction-popup {
+    button {
+      margin: 1rem 0;
+    }
+  }
 }
 
 /* =========================

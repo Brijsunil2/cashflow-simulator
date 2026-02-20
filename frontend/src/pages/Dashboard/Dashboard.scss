@@ -27,6 +27,14 @@
     }
   }
 
+  .btn--delete {
+    background-color: $color-danger-600;
+
+    &:hover {
+      background-color: $color-danger-700;
+    }
+  }
+
   &__header {
     display: flex;
     flex-direction: column;
