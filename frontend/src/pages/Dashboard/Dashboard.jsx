@@ -4,7 +4,7 @@ import { budgetReducer } from "../../logic/budgetReducer";
 import SummaryCard from "../../components/SummaryCard/SummaryCard";
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionList/TransactionList";
-import { selectSummary } from "../../logic/budgetSelector";
+import { selectSummary, selectSortedTransactions } from "../../logic/budgetSelector";
 import Popup from "../../components/Popup/Popup";
 import { testTransactions } from "../../test/testTransactions";
 
@@ -12,7 +12,7 @@ const initialState = {
   userId: "user123",
   currency: "CAD",
   transactions:
-    import.meta.env.VITE_APP_ENV === "development" ? testTransactions : [],
+    import.meta.env.VITE_APP_ENV === "development" ? testTransactions: [],
 };
 
 const Dashboard = () => {
@@ -63,14 +63,14 @@ const Dashboard = () => {
           <div className="dashboard__content-body">
             {state.transactions.length > 0 && (
               <div className="dashboard_charts">
-                <div className="dashboard__charts--pie-chart">Pie Chart</div>
-                <div className="dashboard__charts--line-graph">Line Graph</div>
+                {/* <div className="dashboard__charts--pie-chart">Pie Chart</div>
+                <div className="dashboard__charts--line-graph">Line Graph</div> */}
               </div>
             )}
 
             <div className="dashboard__transactions">
               <TransactionList
-                transactions={state.transactions}
+                transactions={selectSortedTransactions(state)}
                 onDelete={(transactionId) =>
                   dispatch({
                     type: "REMOVE_TRANSACTION",

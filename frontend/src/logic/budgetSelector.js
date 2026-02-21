@@ -53,3 +53,9 @@ export const selectSummary = (state) => ({
   totalExpenses: selectTotalExpenses(state),
   netBalance: selectNetBalance(state),
 });
+
+export const selectSortedTransactions = (state) => {
+  return [...state.transactions].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
+};
