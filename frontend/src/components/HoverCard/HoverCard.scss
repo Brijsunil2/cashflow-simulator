@@ -10,7 +10,8 @@
     position: absolute;
     left: 0;
     top: 100%;
-    width: 320px;
+    min-width: 320px;
+    width: max-content;
 
     background: white;
     border-radius: 12px;

@@ -64,11 +64,12 @@ const Dashboard = () => {
                 </span>
               )}
             </div>
+
             <button
               className="add-transaction-btn"
               onClick={() => setIsPopupOpen(true)}
             >
-              + Add Transaction
+              Add Transaction
             </button>
           </div>
 

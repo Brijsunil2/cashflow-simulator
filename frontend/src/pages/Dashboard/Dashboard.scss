@@ -8,19 +8,40 @@
   display: flex;
   flex-direction: column;
   gap: $space-6;
-  margin-top: 2rem;
-  margin-bottom: 200px;
+  margin: $space-5 auto 120px;
+  max-width: map.get($breakpoints, xl);
+  padding: 0 $space-4;
+  width: 100%;
+
+  button, a {
+    &:focus-visible {
+      border-radius: 4px;
+      outline: 2px solid $color-primary-500;
+      outline-offset: 2px;
+    }
+  }
 
   .add-transaction-btn {
+    align-items: center;
     background-color: $color-primary-600;
-    color: #fff;
-    border: none;
-    padding: $space-2 $space-4;
-    border-radius: 4px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: $color-surface;
     cursor: pointer;
+    display: inline-flex;
+    font-size: $font-sm;
+    font-weight: $weight-medium;
+    justify-content: center;
+    padding: $space-2 $space-4;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
 
     &:hover {
       background-color: $color-primary-700;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    &:active {
+      transform: scale(0.98);
     }
   }
 
@@ -33,18 +54,25 @@
   }
 
   &__header {
+    align-items: center;
     display: flex;
     flex-direction: column;
+    gap: $space-2;
+    margin-bottom: $space-2;
     text-align: center;
 
     h1 {
+      color: $color-text-primary;
       font-size: $font-xxl;
-      font-weight: $weight-semibold;
+      font-weight: $weight-bold;
+      line-height: $line-tight;
+      margin: 0;
     }
 
     p {
-      font-size: $font-sm;
       color: $color-text-secondary;
+      font-size: $font-md;
+      margin: 0;
     }
   }
 
@@ -56,71 +84,84 @@
   &__content {
     background-color: $color-surface;
     border: 1px solid $color-border;
-    border-radius: 8px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 
     &-body {
-      padding: $space-6;
       display: grid;
-      grid-template-columns: 1fr 2fr;
       gap: $space-6;
+      grid-template-columns: 1fr 2fr;
+      padding: $space-6;
 
       @media (max-width: map.get($breakpoints, lg)) {
-      grid-template-columns: 1fr;
-      align-items: start;
-    }
+        align-items: start;
+        grid-template-columns: 1fr;
+      }
     }
   }
 
   &__subheader {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    grid-column: span 2;
-    padding: $space-4 $space-6;
+    background-color: $color-gray-50;
     border-bottom: 1px solid $color-border;
+    border-radius: 11px 11px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-4;
+    justify-content: end;
+    padding: $space-4 $space-6;
     width: 100%;
 
-    button {
-      margin-left: auto;
+    @media (max-width: map.get($breakpoints, md)) {
+      align-items: stretch;
+      flex-direction: column;
     }
   }
 
   &__date-range-wrapper {
-    display: flex;
     align-items: center;
+    display: flex;
+    flex-wrap: wrap;
     gap: $space-4;
   }
 
   &__date-range-btn {
     background-color: $color-surface;
-    color: $color-primary-700;
     border: 1px solid $color-primary-300;
-    padding: $space-2 $space-4;
-    border-radius: 4px;
+    border-radius: 8px;
+    color: $color-primary-700;
     cursor: pointer;
+    font-size: $font-sm;
     font-weight: $weight-medium;
+    padding: $space-2 $space-4;
     transition: all 0.2s ease;
 
     &:hover {
       background-color: $color-primary-50;
       border-color: $color-primary-400;
     }
+
+    &:active {
+      transform: scale(0.98);
+    }
   }
 
   &__date-display {
+    align-items: center;
+    background-color: $color-primary-50;
+    border: 1px solid $color-primary-200;
+    border-radius: 8px;
+    color: $color-primary-800;
+    display: flex;
     font-size: $font-sm;
     font-weight: $weight-medium;
-    color: $color-primary-700;
-    background-color: $color-primary-50;
     padding: $space-2 $space-3;
-    border-radius: 8px;
-    border: 1px solid $color-primary-200;
   }
 
   &__date-range-popup-content {
     display: flex;
     justify-content: center;
-    padding: $space-4;
+    padding: 0;
   }
 
   &__transactions {
