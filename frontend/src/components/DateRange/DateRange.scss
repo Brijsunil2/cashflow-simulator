@@ -1,0 +1,114 @@
+@use "../../styles/abstracts/colors" as colors;
+@use "../../styles/abstracts/typography" as typography;
+@use "../../styles/abstracts/spacing" as spacing;
+
+/* Premium Modern Aesthetic Customization for react-day-picker v9 */
+.custom-date-range-container {
+  display: inline-flex;
+
+  
+  .rdp-root {
+    /* Base Styling */
+    font-family: typography.$font-primary;
+    background: colors.$color-surface;
+    border-radius: 20px;
+    padding: spacing.$space-5;
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
+    border: 1px solid colors.$color-border;
+    margin: 0;
+
+    /* Customizing internal elements */
+    .rdp-month_caption {
+      font-weight: typography.$weight-semibold;
+      color: colors.$color-text-primary;
+      font-size: typography.$font-lg;
+    }
+
+    .rdp-weekday {
+      color: colors.$color-text-secondary;
+      font-weight: typography.$weight-semibold;
+      font-size: typography.$font-sm;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Modern Buttons */
+    .rdp-button_previous,
+    .rdp-button_next {
+      background-color: colors.$color-bg;
+      border: 1px solid colors.$color-gray-200;
+      border-radius: 10px;
+      color: colors.$color-gray-600;
+      transition: all 0.2s ease;
+
+      &:hover:not(:disabled) {
+        background-color: colors.$color-gray-100;
+        color: colors.$color-text-primary;
+        border-color: colors.$color-gray-300;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      }
+      
+      &:active:not(:disabled) {
+        transform: translateY(0);
+      }
+    }
+
+    /* Day Button Styles & Hover */
+    .rdp-day_button {
+      font-weight: typography.$weight-medium;
+      color: colors.$color-gray-700;
+      font-size: typography.$font-md;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:hover:not([disabled]):not(.rdp-selected) {
+        background-color: colors.$color-gray-100;
+        color: colors.$color-text-primary;
+        transform: scale(1.05);
+      }
+    }
+    
+    /* Make the selected days in the range use primary color */
+    .rdp-selected .rdp-day_button {
+      border: 2px solid colors.$color-primary-600;
+    }
+
+    .rdp-range_start .rdp-day_button,
+    .rdp-range_end .rdp-day_button {
+      background-color: colors.$color-primary-600;
+      color: colors.$color-surface;
+      box-shadow: 0 4px 12px -2px colors.$color-primary-300;
+      transform: scale(1.05);
+      font-weight: typography.$weight-semibold;
+      z-index: 10;
+      border-color: colors.$color-primary-600;
+
+      &:hover {
+        background-color: colors.$color-primary-700;
+      }
+    }
+
+    .rdp-range_start {
+      background: linear-gradient(90deg, transparent 50%, colors.$color-primary-50 50%);
+    }
+
+    .rdp-range_end {
+      background: linear-gradient(90deg, colors.$color-primary-50 50%, transparent 50%);
+    }
+
+    .rdp-range_middle {
+      background-color: colors.$color-primary-50;
+      
+      .rdp-day_button {
+        color: colors.$color-primary-800;
+        border-radius: 0;
+        font-weight: typography.$weight-medium;
+        border: none;
+      }
+    }
+    
+    .rdp-today {
+      color: colors.$color-primary-700;
+    }
+  }
+}

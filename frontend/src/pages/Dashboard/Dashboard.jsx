@@ -7,6 +7,7 @@ import TransactionList from "../../components/TransactionList/TransactionList";
 import { selectSummary, selectSortedTransactions } from "../../logic/budgetSelector";
 import Popup from "../../components/Popup/Popup";
 import { testTransactions } from "../../test/testTransactions";
+import DateRange from "../../components/DateRange/DateRange"
 
 const initialState = {
   userId: "user123",
@@ -37,7 +38,8 @@ const Dashboard = () => {
 
         <section className="dashboard__content">
           <div className="dashboard__subheader">
-            <button className="" onClick={() => setIsPopupOpen(true)}>
+            <DateRange />
+            <button className="add-transaction-btn" onClick={() => setIsPopupOpen(true)}>
               + Add Transaction
             </button>
           </div>
@@ -63,8 +65,7 @@ const Dashboard = () => {
           <div className="dashboard__content-body">
             {state.transactions.length > 0 && (
               <div className="dashboard_charts">
-                {/* <div className="dashboard__charts--pie-chart">Pie Chart</div>
-                <div className="dashboard__charts--line-graph">Line Graph</div> */}
+                {/* <div className="dashboard__charts--pie-chart">Pie Chart</div> */}
               </div>
             )}
 

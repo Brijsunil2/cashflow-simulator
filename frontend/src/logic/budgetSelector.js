@@ -59,3 +59,15 @@ export const selectSortedTransactions = (state) => {
     (a, b) => new Date(b.date) - new Date(a.date)
   );
 };
+
+export const selectTransactionsByDateRange = (state, from, to) => {
+  const start = new Date(from);
+  const end = new Date(to);
+
+  return [...state.transactions]
+    .filter((transaction) => {
+      const d = new Date(transaction.date);
+      return d >= start && d <= end;
+    })
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+};

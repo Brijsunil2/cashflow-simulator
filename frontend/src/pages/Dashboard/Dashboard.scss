@@ -4,9 +4,6 @@
 @use "../../styles/abstracts/breakpoints" as *;
 @use "sass:map";
 
-/**
- * Dashboard root
- */
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -14,7 +11,7 @@
   margin-top: 2rem;
   margin-bottom: 200px;
 
-  button {
+  .add-transaction-btn {
     background-color: $color-primary-600;
     color: #fff;
     border: none;
