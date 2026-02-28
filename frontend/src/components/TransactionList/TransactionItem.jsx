@@ -16,11 +16,10 @@ const TransactionItem = ({ transaction, onDelete, onEdit }) => {
   const trigger = (
     <div className="transaction-item__row">
       <span className="transaction-item__name">
-        <FaCircle
-          className={`transaction-type-icon ${isIncome ? "income" : "expense"
-            }`}
-        />
-        {transaction.name}
+        <span className={`transaction-item__icon-badge ${isIncome ? "income" : "expense"}`}>
+          <FaCircle className="transaction-type-icon" />
+        </span>
+        <span className="transaction-item__title">{transaction.name}</span>
       </span>
 
       <span

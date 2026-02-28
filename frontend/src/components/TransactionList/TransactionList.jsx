@@ -3,7 +3,7 @@ import TransactionItem from "./TransactionItem";
 import Pagination from "../Pagination/Pagination";
 import { usePagination } from "../../logic/usePagination";
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 10;
 
 const TransactionList = ({ transactions, onDelete, onEdit, dateRange }) => {
   const {
@@ -27,9 +27,9 @@ const TransactionList = ({ transactions, onDelete, onEdit, dateRange }) => {
       </div>
 
       {transactions.length === 0 ? (
-        <p className="transaction-list-empty">
-          No transactions yet.
-        </p>
+        <div className="transaction-list-empty">
+          <p>No transactions yet in this period.</p>
+        </div>
       ) : (
         <>
           <ul className="transaction-list">
