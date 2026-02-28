@@ -8,10 +8,16 @@
 
   &__content {
     position: absolute;
-    left: 0;
     top: 100%;
-    min-width: 320px;
     width: max-content;
+
+    &--left {
+      left: 0;
+    }
+
+    &--right {
+      right: 0;
+    }
 
     background: white;
     border-radius: 12px;

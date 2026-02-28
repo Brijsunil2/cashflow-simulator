@@ -205,3 +205,38 @@
   opacity: 0.6;
   padding: $space-4;
 }
+.delete-confirmation-popover {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-1 0;
+
+  p {
+    margin: 0;
+    font-size: $font-sm;
+    font-weight: $weight-medium;
+    color: $color-text-primary;
+    white-space: nowrap;
+  }
+
+  &-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    .btn-delete-confirm {
+      background-color: $color-expense;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: $font-sm;
+      font-weight: $weight-semibold;
+      padding: $space-1 $space-3;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #dc2626; /* Darker red */
+      }
+    }
+  }
+}

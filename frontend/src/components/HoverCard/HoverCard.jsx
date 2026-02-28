@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import "./HoverCard.scss";
 
-const HoverCard = ({ trigger, children, clickOnly = false }) => {
+const HoverCard = ({ trigger, children, clickOnly = false, align = "left", minWidth = "320px" }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [canHover, setCanHover] = useState(false);
   const cardRef = useRef(null);
@@ -29,14 +29,17 @@ const HoverCard = ({ trigger, children, clickOnly = false }) => {
       onMouseEnter={() => !clickOnly && canHover && setIsOpen(true)}
       onMouseLeave={() => !clickOnly && canHover && setIsOpen(false)}
     >
-      <div 
+      <div
         className="hover-card__trigger"
         onClick={() => (clickOnly || !canHover) && setIsOpen((prev) => !prev)}
       >
         {trigger}
       </div>
 
-      <div className={`hover-card__content ${isOpen ? "open" : ""}`}>
+      <div
+        className={`hover-card__content hover-card__content--${align} ${isOpen ? "open" : ""}`}
+        style={{ minWidth }}
+      >
         {children}
       </div>
     </div>

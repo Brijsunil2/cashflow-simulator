@@ -11,29 +11,48 @@ const TransactionItem = ({ transaction, onDelete }) => {
     <div className="transaction-item__row">
       <span className="transaction-item__name">
         <FaCircle
-          className={`transaction-type-icon ${
-            isIncome ? "income" : "expense"
-          }`}
+          className={`transaction-type-icon ${isIncome ? "income" : "expense"
+            }`}
         />
         {transaction.name}
       </span>
 
       <span
-        className={`transaction-item__amount ${
-          isIncome ? "income" : "expense"
-        }`}
+        className={`transaction-item__amount ${isIncome ? "income" : "expense"
+          }`}
       >
         {`${isIncome ? "" : "-"}$${transaction.amount}`}
       </span>
 
-      <span className="transaction-item__actions">
-        <RiDeleteBin6Fill
-          className="icon-delete"
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete(transaction.id);
-          }}
-        />
+      <span className="transaction-item__actions" onClick={(e) => e.stopPropagation()}>
+        <HoverCard
+          clickOnly={true}
+          align="right"
+          minWidth="auto"
+          trigger={
+            <div className="icon-delete">
+              <RiDeleteBin6Fill />
+            </div>
+          }
+        >
+          <div
+            className="delete-confirmation-popover"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p>Delete transaction?</p>
+            <div className="delete-confirmation-popover-actions">
+              <button
+                className="btn-delete-confirm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(transaction.id);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </HoverCard>
       </span>
     </div>
   );
