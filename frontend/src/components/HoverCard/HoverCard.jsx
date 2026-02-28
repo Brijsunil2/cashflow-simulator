@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import "./HoverCard.scss";
 
-const HoverCard = ({ trigger, children }) => {
+const HoverCard = ({ trigger, children, clickOnly = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [canHover, setCanHover] = useState(false);
   const cardRef = useRef(null);
@@ -13,24 +13,28 @@ const HoverCard = ({ trigger, children }) => {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (!canHover && cardRef.current && !cardRef.current.contains(e.target)) {
+      if ((clickOnly || !canHover) && cardRef.current && !cardRef.current.contains(e.target)) {
         setIsOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [canHover]);
+  }, [canHover, clickOnly]);
 
   return (
     <div
       className="hover-card"
       ref={cardRef}
-      onMouseEnter={() => canHover && setIsOpen(true)}
-      onMouseLeave={() => canHover && setIsOpen(false)}
-      onClick={() => !canHover && setIsOpen((prev) => !prev)}
+      onMouseEnter={() => !clickOnly && canHover && setIsOpen(true)}
+      onMouseLeave={() => !clickOnly && canHover && setIsOpen(false)}
     >
-      <div className="hover-card__trigger">{trigger}</div>
+      <div 
+        className="hover-card__trigger"
+        onClick={() => (clickOnly || !canHover) && setIsOpen((prev) => !prev)}
+      >
+        {trigger}
+      </div>
 
       <div className={`hover-card__content ${isOpen ? "open" : ""}`}>
         {children}

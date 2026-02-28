@@ -74,6 +74,7 @@
   &__subheader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     grid-column: span 2;
     padding: $space-4 $space-6;
     border-bottom: 1px solid $color-border;
@@ -82,6 +83,44 @@
     button {
       margin-left: auto;
     }
+  }
+
+  &__date-range-wrapper {
+    display: flex;
+    align-items: center;
+    gap: $space-4;
+  }
+
+  &__date-range-btn {
+    background-color: $color-surface;
+    color: $color-primary-700;
+    border: 1px solid $color-primary-300;
+    padding: $space-2 $space-4;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: $weight-medium;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $color-primary-50;
+      border-color: $color-primary-400;
+    }
+  }
+
+  &__date-display {
+    font-size: $font-sm;
+    font-weight: $weight-medium;
+    color: $color-primary-700;
+    background-color: $color-primary-50;
+    padding: $space-2 $space-3;
+    border-radius: 8px;
+    border: 1px solid $color-primary-200;
+  }
+
+  &__date-range-popup-content {
+    display: flex;
+    justify-content: center;
+    padding: $space-4;
   }
 
   &__transactions {

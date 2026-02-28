@@ -4,21 +4,32 @@ import { budgetReducer } from "../../logic/budgetReducer";
 import SummaryCard from "../../components/SummaryCard/SummaryCard";
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionList/TransactionList";
-import { selectSummary, selectSortedTransactions } from "../../logic/budgetSelector";
+import {
+  selectSummary,
+  selectSortedTransactions,
+  selectTransactionsByDateRange,
+} from "../../logic/budgetSelector";
 import Popup from "../../components/Popup/Popup";
 import { testTransactions } from "../../test/testTransactions";
-import DateRange from "../../components/DateRange/DateRange"
+import DateRange from "../../components/DateRange/DateRange";
+import HoverCard from "../../components/HoverCard/HoverCard";
 
 const initialState = {
   userId: "user123",
   currency: "CAD",
   transactions:
-    import.meta.env.VITE_APP_ENV === "development" ? testTransactions: [],
+    import.meta.env.VITE_APP_ENV === "development" ? testTransactions : [],
 };
 
 const Dashboard = () => {
   const [state, dispatch] = useReducer(budgetReducer, initialState);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [dateRange, setDateRange] = useState(null);
+
+  const displayedTransactions =
+    dateRange?.from && dateRange?.to
+      ? selectTransactionsByDateRange(state, dateRange.from, dateRange.to)
+      : selectSortedTransactions(state);
 
   return (
     <div className="page">
@@ -38,8 +49,25 @@ const Dashboard = () => {
 
         <section className="dashboard__content">
           <div className="dashboard__subheader">
-            <DateRange />
-            <button className="add-transaction-btn" onClick={() => setIsPopupOpen(true)}>
+            <div className="dashboard__date-range-wrapper">
+              <HoverCard
+                clickOnly={true}
+                trigger={<button className="dashboard__date-range-btn">Select Date Range</button>}
+              >
+                <div className="dashboard__date-range-popup-content">
+                  <DateRange onChange={setDateRange} />
+                </div>
+              </HoverCard>
+              {dateRange?.from && dateRange?.to && (
+                <span className="dashboard__date-display">
+                  {dateRange.from.toLocaleDateString()} - {dateRange.to.toLocaleDateString()}
+                </span>
+              )}
+            </div>
+            <button
+              className="add-transaction-btn"
+              onClick={() => setIsPopupOpen(true)}
+            >
               + Add Transaction
             </button>
           </div>
@@ -64,14 +92,12 @@ const Dashboard = () => {
 
           <div className="dashboard__content-body">
             {state.transactions.length > 0 && (
-              <div className="dashboard_charts">
-                {/* <div className="dashboard__charts--pie-chart">Pie Chart</div> */}
-              </div>
+              <div className="dashboard_charts"></div>
             )}
 
             <div className="dashboard__transactions">
               <TransactionList
-                transactions={selectSortedTransactions(state)}
+                transactions={displayedTransactions}
                 onDelete={(transactionId) =>
                   dispatch({
                     type: "REMOVE_TRANSACTION",
