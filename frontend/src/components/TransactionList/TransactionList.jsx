@@ -5,7 +5,7 @@ import { usePagination } from "../../logic/usePagination";
 
 const ITEMS_PER_PAGE = 8;
 
-const TransactionList = ({ transactions, onDelete }) => {
+const TransactionList = ({ transactions, onDelete, dateRange }) => {
   const {
     currentPage,
     totalPages,
@@ -13,46 +13,55 @@ const TransactionList = ({ transactions, onDelete }) => {
     paginatedItems,
   } = usePagination(transactions, ITEMS_PER_PAGE);
 
-  if (transactions.length === 0) {
-    return (
-      <section className="transaction-list-section">
-        <p className="transaction-list-empty">
-          No transactions yet.
-        </p>
-      </section>
-    );
-  }
+  const filterText =
+    dateRange?.from && dateRange?.to
+      ? `Showing: ${dateRange.from.toLocaleDateString()} - ${dateRange.to.toLocaleDateString()}`
+      : "Showing all";
 
   return (
     <section className="transaction-list-section">
-      <ul className="transaction-list">
-        {paginatedItems.map((transaction, index) => {
-          const previous = paginatedItems[index - 1];
-          const showDateHeader =
-            index === 0 || previous.date !== transaction.date;
+      <div className="transaction-list__header">
+        <span className="transaction-list__filter-status">
+          {filterText}
+        </span>
+      </div>
 
-          return (
-            <li key={transaction.id} className="transaction-group">
-              {showDateHeader && (
-                <h3 className="transaction-date">
-                  {transaction.date}
-                </h3>
-              )}
+      {transactions.length === 0 ? (
+        <p className="transaction-list-empty">
+          No transactions yet.
+        </p>
+      ) : (
+        <>
+          <ul className="transaction-list">
+            {paginatedItems.map((transaction, index) => {
+              const previous = paginatedItems[index - 1];
+              const showDateHeader =
+                index === 0 || previous.date !== transaction.date;
 
-              <TransactionItem
-                transaction={transaction}
-                onDelete={onDelete}
-              />
-            </li>
-          );
-        })}
-      </ul>
+              return (
+                <li key={transaction.id} className="transaction-group">
+                  {showDateHeader && (
+                    <h3 className="transaction-date">
+                      {transaction.date}
+                    </h3>
+                  )}
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+                  <TransactionItem
+                    transaction={transaction}
+                    onDelete={onDelete}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </>
+      )}
     </section>
   );
 };

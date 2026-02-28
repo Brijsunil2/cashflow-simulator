@@ -8,6 +8,23 @@
   gap: 1rem;
 }
 
+.transaction-list__header {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: $space-2;
+}
+
+.transaction-list__filter-status {
+  background-color: $color-primary-50;
+  border: 1px solid $color-primary-200;
+  border-radius: 6px;
+  color: $color-primary-800;
+  font-size: $font-sm;
+  font-weight: $weight-medium;
+  padding: $space-2 $space-3;
+}
+
 .transaction-list {
   list-style: none;
   padding: 0;

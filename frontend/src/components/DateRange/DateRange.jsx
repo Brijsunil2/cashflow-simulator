@@ -28,14 +28,17 @@ const DateRangePicker = ({ onChange }) => {
 
     setRange(newRange);
 
-    if (newRange?.from && newRange?.to) {
-      onChange({
-        from: newRange.from,
-        to: newRange.to,
-      });
+    if (newRange?.from) {
+      if (onChange) {
+        onChange({
+          from: newRange.from,
+          to: newRange.to || newRange.from,
+        });
+      }
     } else {
-      // If we unselected everything or have incomplete range, optionally trigger onChange with null or similar if the parent needs to know.
-      // Currently, it seems we only trigger onChange when we have both dates.
+      if (onChange) {
+        onChange(null);
+      }
     }
   };
 
@@ -48,6 +51,21 @@ const DateRangePicker = ({ onChange }) => {
         captionLayout="dropdown"
         startMonth={new Date(2000, 0)}
         endMonth={new Date(2050, 11)}
+        footer={
+          range ? (
+            <div className="rdp-footer-reset">
+              <button
+                className="rdp-reset-btn"
+                onClick={() => {
+                  setRange(undefined);
+                  if (onChange) onChange(null);
+                }}
+              >
+                Reset Date
+              </button>
+            </div>
+          ) : null
+        }
       />
     </div>
   );

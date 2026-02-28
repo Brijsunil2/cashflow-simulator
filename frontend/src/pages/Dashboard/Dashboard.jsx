@@ -58,11 +58,6 @@ const Dashboard = () => {
                   <DateRange onChange={setDateRange} />
                 </div>
               </HoverCard>
-              {dateRange?.from && dateRange?.to && (
-                <span className="dashboard__date-display">
-                  {dateRange.from.toLocaleDateString()} - {dateRange.to.toLocaleDateString()}
-                </span>
-              )}
             </div>
 
             <button
@@ -99,6 +94,7 @@ const Dashboard = () => {
             <div className="dashboard__transactions">
               <TransactionList
                 transactions={displayedTransactions}
+                dateRange={dateRange}
                 onDelete={(transactionId) =>
                   dispatch({
                     type: "REMOVE_TRANSACTION",

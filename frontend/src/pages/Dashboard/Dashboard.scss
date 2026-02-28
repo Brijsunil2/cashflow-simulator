@@ -146,18 +146,6 @@
     }
   }
 
-  &__date-display {
-    align-items: center;
-    background-color: $color-primary-50;
-    border: 1px solid $color-primary-200;
-    border-radius: 8px;
-    color: $color-primary-800;
-    display: flex;
-    font-size: $font-sm;
-    font-weight: $weight-medium;
-    padding: $space-2 $space-3;
-  }
-
   &__date-range-popup-content {
     display: flex;
     justify-content: center;

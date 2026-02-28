@@ -145,5 +145,29 @@
     .rdp-today {
       color: colors.$color-primary-700;
     }
+
+    .rdp-footer-reset {
+      border-top: 1px solid colors.$color-gray-200;
+      margin-top: spacing.$space-3;
+      padding-top: spacing.$space-3;
+      text-align: center;
+    }
+
+    .rdp-reset-btn {
+      background-color: transparent;
+      border: 1px solid colors.$color-gray-300;
+      border-radius: 6px;
+      color: colors.$color-text-secondary;
+      cursor: pointer;
+      font-size: typography.$font-sm;
+      font-weight: typography.$weight-medium;
+      padding: spacing.$space-1 spacing.$space-3;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: colors.$color-gray-100;
+        color: colors.$color-text-primary;
+      }
+    }
   }
 }
