@@ -101,6 +101,12 @@ const Dashboard = () => {
                     payload: transactionId,
                   })
                 }
+                onEdit={(editedTransaction) =>
+                  dispatch({
+                    type: "UPDATE_TRANSACTION",
+                    payload: editedTransaction,
+                  })
+                }
               />
             </div>
           </div>

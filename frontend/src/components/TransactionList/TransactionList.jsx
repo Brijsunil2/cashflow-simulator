@@ -5,7 +5,7 @@ import { usePagination } from "../../logic/usePagination";
 
 const ITEMS_PER_PAGE = 8;
 
-const TransactionList = ({ transactions, onDelete, dateRange }) => {
+const TransactionList = ({ transactions, onDelete, onEdit, dateRange }) => {
   const {
     currentPage,
     totalPages,
@@ -49,6 +49,7 @@ const TransactionList = ({ transactions, onDelete, dateRange }) => {
                   <TransactionItem
                     transaction={transaction}
                     onDelete={onDelete}
+                    onEdit={onEdit}
                   />
                 </li>
               );

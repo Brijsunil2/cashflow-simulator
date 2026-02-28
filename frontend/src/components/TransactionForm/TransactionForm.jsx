@@ -1,5 +1,5 @@
 import "./TransactionForm.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   TRANSACTION_TYPE,
@@ -8,8 +8,16 @@ import {
   INITIAL_TRANSACTION,
 } from "../../logic/transactionConstants";
 
-const TransactionForm = ({ onSubmit }) => {
-  const [transaction, setTransaction] = useState(INITIAL_TRANSACTION);
+const TransactionForm = ({ onSubmit, initialData }) => {
+  const [transaction, setTransaction] = useState(initialData || INITIAL_TRANSACTION);
+
+  useEffect(() => {
+    if (initialData) {
+      setTransaction(initialData);
+    } else {
+      setTransaction(INITIAL_TRANSACTION);
+    }
+  }, [initialData]);
 
   function handleChange(field, value) {
     setTransaction((prev) => ({
@@ -40,7 +48,8 @@ const TransactionForm = ({ onSubmit }) => {
     }
 
     onSubmit({
-      id: "txn" + uuidv4(),
+      ...initialData,
+      id: initialData?.id || "txn" + uuidv4(),
       date: transaction.date,
       name: transaction.name,
       amount: Number(transaction.amount),
@@ -94,7 +103,7 @@ const TransactionForm = ({ onSubmit }) => {
           value={transaction.amount}
           onChange={(e) => handleChange("amount", e.target.value)}
           min={0}
-          required ={true}
+          required={true}
         />
         <label>
           Amount <span>*</span>
@@ -144,7 +153,7 @@ const TransactionForm = ({ onSubmit }) => {
         <label>Notes</label>
       </div>
 
-      <button type="submit">Add Transaction</button>
+      <button type="submit">{initialData ? "Save Changes" : "Add Transaction"}</button>
     </form>
   );
 };
