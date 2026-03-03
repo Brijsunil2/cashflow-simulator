@@ -1,5 +1,6 @@
 import "./TransactionList.scss";
 import TransactionItem from "./TransactionItem";
+import { TRANSACTION_TYPE } from "../../logic/transactionConstants";
 import Pagination from "../Pagination/Pagination";
 import { usePagination } from "../../logic/usePagination";
 
@@ -13,6 +14,16 @@ const TransactionList = ({ transactions, onDelete, onEdit, dateRange }) => {
     paginatedItems,
   } = usePagination(transactions, ITEMS_PER_PAGE);
 
+  const totalIncome = transactions
+    .filter((t) => t.type === TRANSACTION_TYPE.INCOME)
+    .reduce((sum, t) => sum + Number(t.amount), 0);
+
+  const totalExpenses = transactions
+    .filter((t) => t.type === TRANSACTION_TYPE.EXPENSE)
+    .reduce((sum, t) => sum + Number(t.amount), 0);
+
+  const netBalance = totalIncome - totalExpenses;
+
   const filterText =
     dateRange?.from && dateRange?.to
       ? `Showing: ${dateRange.from.toLocaleDateString()} - ${dateRange.to.toLocaleDateString()}`
@@ -21,9 +32,29 @@ const TransactionList = ({ transactions, onDelete, onEdit, dateRange }) => {
   return (
     <section className="transaction-list-section">
       <div className="transaction-list__header">
-        <span className="transaction-list__filter-status">
-          {filterText}
-        </span>
+        <div className="transaction-list__header-top">
+          <h2 className="transaction-list__title">Transactions</h2>
+          <span className="transaction-list__filter-status">
+            {filterText}
+          </span>
+        </div>
+
+        <div className="transaction-list__summary">
+          <div className="summary-card income">
+            <span className="summary-card__label">Total Income</span>
+            <span className="summary-card__value">${totalIncome.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+          </div>
+          <div className="summary-card expense">
+            <span className="summary-card__label">Total Expenses</span>
+            <span className="summary-card__value">-${totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+          </div>
+          <div className={`summary-card balance ${netBalance >= 0 ? 'positive' : 'negative'}`}>
+            <span className="summary-card__label">Net Balance</span>
+            <span className="summary-card__value">
+              {netBalance < 0 ? "-" : ""}${Math.abs(netBalance).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </span>
+          </div>
+        </div>
       </div>
 
       {transactions.length === 0 ? (

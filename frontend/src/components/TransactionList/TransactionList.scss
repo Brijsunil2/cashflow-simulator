@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../../styles/abstracts/colors" as *;
 @use "../../styles/abstracts/typography" as *;
 @use "../../styles/abstracts/spacing" as *;
@@ -14,21 +15,97 @@
 }
 
 .transaction-list__header {
-  align-items: center;
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: $space-2;
+  flex-direction: column;
+  gap: $space-6;
+  margin-bottom: $space-6;
+}
+
+.transaction-list__header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $space-3;
+}
+
+.transaction-list__title {
+  font-size: $font-lg;
+  font-weight: $weight-bold;
+  color: $color-text-primary;
+  margin: 0;
 }
 
 .transaction-list__filter-status {
-  background-color: $color-primary-50;
-  border: 1px solid $color-primary-100;
+  background-color: $color-gray-50;
+  border: 1px solid $color-border;
   border-radius: 20px;
-  color: $color-primary-700;
+  color: $color-text-secondary;
   font-size: $font-xs;
   font-weight: $weight-semibold;
   padding: $space-1 $space-3;
   letter-spacing: 0.02em;
+}
+
+.transaction-list__summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: $space-4;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.summary-card {
+  background: $color-gray-50;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  padding: $space-4 $space-5;
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  &__label {
+    font-size: 0.7rem;
+    color: $color-text-secondary;
+    font-weight: $weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__value {
+    font-size: 1.35rem;
+    font-weight: $weight-semibold;
+    color: $color-text-primary;
+  }
+
+  &.income &__value {
+    color: $color-income;
+  }
+
+  &.expense &__value {
+    color: $color-expense;
+  }
+
+  &.balance {
+    background-color: white;
+    border-color: $color-primary-100;
+
+    &.positive &__value {
+      color: $color-income;
+    }
+
+    &.negative &__value {
+      color: $color-expense;
+    }
+  }
 }
 
 .transaction-list {
@@ -114,12 +191,12 @@
     }
 
     &.income {
-      background-color: transparentize(#10b981, 0.85);
+      background-color: color.adjust(#10b981, $alpha: -0.85);
       color: $color-income;
     }
 
     &.expense {
-      background-color: transparentize(#ef4444, 0.85);
+      background-color: color.adjust(#ef4444, $alpha: -0.85);
       color: $color-expense;
     }
   }
@@ -135,7 +212,7 @@
 
   &__amount {
     text-align: right;
-    font-weight: $weight-bold;
+    font-weight: $weight-semibold;
     font-size: 1rem;
 
     &.income {
@@ -358,7 +435,7 @@
       color: $color-expense;
       svg { color: $color-expense; }
       &:hover {
-        background-color: transparentize($color-expense, 0.9);
+        background-color: color.adjust($color-expense, $alpha: -0.9);
       }
     }
   }
