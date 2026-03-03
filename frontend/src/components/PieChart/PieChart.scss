@@ -1,0 +1,21 @@
+@use "../../styles/abstracts/colors" as *;
+@use "../../styles/abstracts/spacing" as *;
+
+.pie-chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: $space-4;
+  background: white;
+  border-radius: 12px;
+
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .slice path {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+}
