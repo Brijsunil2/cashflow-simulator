@@ -35,8 +35,13 @@ const Dashboard = () => {
     <div className="page">
       <div className="page-container dashboard">
         <header className="dashboard__header">
-          <h1>CashFlow Dashboard</h1>
-          <p>Monthly income, expenses, and balance overview</p>
+          <div className="dashboard__header-content">
+            <div className="dashboard__header-text">
+              <span className="dashboard__header-greeting">Welcome back,</span>
+              <h1>CashFlow</h1>
+              <p className="dashboard__header-subtitle">Dashboard</p>
+            </div>
+          </div>
         </header>
 
         <section className="dashboard__summary">

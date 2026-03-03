@@ -54,25 +54,89 @@
   }
 
   &__header {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: $space-2;
-    margin-bottom: $space-2;
-    text-align: center;
+    margin-bottom: $space-4;
+    padding-bottom: $space-4;
+    border-bottom: 1px solid $color-border;
+
+    &-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: $space-6;
+
+      @media (max-width: map.get($breakpoints, md)) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    &-text {
+      display: flex;
+      flex-direction: column;
+      gap: $space-1;
+    }
+
+    &-greeting {
+      font-size: $font-sm;
+      color: $color-primary-600;
+      font-weight: $weight-bold;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
 
     h1 {
       color: $color-text-primary;
-      font-size: $font-xxl;
-      font-weight: $weight-bold;
-      line-height: $line-tight;
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1.1;
       margin: 0;
+      letter-spacing: -0.03em;
     }
 
-    p {
+    &-subtitle {
       color: $color-text-secondary;
       font-size: $font-md;
       margin: 0;
+      opacity: 0.8;
+    }
+
+    &-meta {
+      display: flex;
+      align-items: center;
+      gap: $space-4;
+    }
+  }
+
+  &__current-date {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    padding-left: $space-6;
+    border-left: 2px solid $color-primary-100;
+
+    @media (max-width: map.get($breakpoints, md)) {
+      align-items: flex-start;
+      text-align: left;
+      padding-left: 0;
+      border-left: none;
+      padding-top: $space-4;
+      border-top: 1px dashed $color-border;
+      width: 100%;
+    }
+
+    .date-label {
+      font-size: 0.7rem;
+      color: $color-text-secondary;
+      font-weight: $weight-bold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .date-value {
+      font-size: $font-lg;
+      font-weight: $weight-bold;
+      color: $color-text-primary;
     }
   }
 
