@@ -4,57 +4,90 @@
 @use "../../styles/abstracts/breakpoints" as *;
 @use "sass:map";
 
-.summary-card {
-  display: flex;
-  justify-content: center;
-  gap: $space-4;
+.summary-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: $space-6;
   width: 100%;
+  
+  @media (max-width: map.get($breakpoints, sm)) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: $color-surface;
   border: 1px solid $color-border;
-  padding: 1.5rem;
-  border-radius: 8px;
+  padding: $space-6;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-    @media (max-width: map.get($breakpoints, sm)) {
-        flex-direction: column;
-    }
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.12);
+    border-color: $color-primary-200;
+  }
 
-  .card {
+  &__info {
     display: flex;
     flex-direction: column;
-    min-width: 150px;
-    background: $color-surface;
-    border: 1px solid $color-border;
-    border-radius: 1rem;
-    padding: $space-4;
+    gap: $space-1;
+    margin-bottom: $space-6;
+  }
 
-    &--balance {
-      background: $color-gray-50;
+  &__label {
+    font-size: 0.8rem;
+    color: $color-text-secondary;
+    font-weight: $weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+
+  &__description {
+    font-size: 0.85rem;
+    color: $color-text-muted;
+    line-height: $line-tight;
+    margin: 0;
+  }
+
+  &__value {
+    font-size: 2.25rem;
+    font-weight: $weight-semibold;
+    color: $color-text-primary;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  &--income {
+    border-left: 4px solid $color-income;
+    .summary-item__value {
+      color: $color-income;
     }
+  }
 
-    &--income {
-      background: $color-income-soft;
+  &--expenses {
+    border-left: 4px solid $color-expense;
+    .summary-item__value {
+      color: $color-expense;
+    }
+  }
 
-      & .card__value {
+  &--balance {
+    background: linear-gradient(135deg, $color-gray-50 0%, white 100%);
+    border-left: 4px solid $color-primary-500;
+    
+    .summary-item__value {
+      &.positive {
         color: $color-income;
       }
-    }
-
-    &--expenses {
-      background: $color-expense-soft;
-
-      & .card__value {
+      &.negative {
         color: $color-expense;
       }
-    }
-
-    &__label {
-      font-size: $font-sm;
-      color: $color-text-secondary;
-    }
-
-    &__value {
-      font-size: $font-xl;
-      font-weight: $weight-medium;
     }
   }
 }
