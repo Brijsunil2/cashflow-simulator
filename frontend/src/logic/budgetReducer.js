@@ -41,10 +41,18 @@ export const BUDGET_ACTIONS = {
   ADD_TRANSACTION: "ADD_TRANSACTION",
   REMOVE_TRANSACTION: "REMOVE_TRANSACTION",
   UPDATE_TRANSACTION: "UPDATE_TRANSACTION",
+  IMPORT_DATA: "IMPORT_DATA",
 };
 
 export function budgetReducer(state, action) {
   switch (action.type) {
+    // IMPORT_DATA: replaces the entire state with imported data.
+    case BUDGET_ACTIONS.IMPORT_DATA: {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
     // ADD_TRANSACTION: adds a new transaction.
     case BUDGET_ACTIONS.ADD_TRANSACTION: {
       const newTransaction = createTransaction(action.payload);

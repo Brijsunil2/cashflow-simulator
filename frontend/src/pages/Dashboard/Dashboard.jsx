@@ -1,6 +1,6 @@
 import "./Dashboard.scss";
-import { useReducer, useState } from "react";
-import { budgetReducer } from "../../logic/budgetReducer";
+import { useReducer, useState, useRef } from "react";
+import { budgetReducer, BUDGET_ACTIONS } from "../../logic/budgetReducer";
 import SummaryCard from "../../components/SummaryCard/SummaryCard";
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
 import TransactionList from "../../components/TransactionList/TransactionList";
@@ -18,13 +18,50 @@ const initialState = {
   userId: "user123",
   currency: "CAD",
   transactions:
-    import.meta.env.VITE_APP_ENV === "development" ? testTransactions : [],
+    import.meta.env.VITE_APP_ENV === "evelopment" ? testTransactions : [],
 };
 
 const Dashboard = () => {
   const [state, dispatch] = useReducer(budgetReducer, initialState);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isExportPopupOpen, setIsExportPopupOpen] = useState(false);
+  const [exportFileName, setExportFileName] = useState("cashflow_data");
   const [dateRange, setDateRange] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleExport = () => {
+    const dataStr = JSON.stringify(state, null, 2);
+    const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+    const fileName = `${exportFileName || "cashflow_data"}.json`;
+
+    const linkElement = document.createElement("a");
+    linkElement.setAttribute("href", dataUri);
+    linkElement.setAttribute("download", fileName);
+    linkElement.click();
+    setIsExportPopupOpen(false);
+  };
+
+  const handleImport = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const fileReader = new FileReader();
+    fileReader.readAsText(file, "UTF-8");
+    fileReader.onload = (event) => {
+      try {
+        const json = JSON.parse(event.target.result);
+        dispatch({
+          type: BUDGET_ACTIONS.IMPORT_DATA,
+          payload: json,
+        });
+        // Reset file input so same file can be imported again if needed
+        e.target.value = "";
+      } catch (err) {
+        console.error("Invalid JSON file", err);
+        alert("Failed to import data: Invalid file format.");
+      }
+    };
+  };
 
   const [rangeInput, setRangeInput] = useState("");
 
@@ -118,12 +155,34 @@ const Dashboard = () => {
               </HoverCard>
             </div>
 
-            <button
-              className="add-transaction-btn"
-              onClick={() => setIsPopupOpen(true)}
-            >
-              Add Transaction
-            </button>
+            <div className="dashboard__actions">
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                accept=".json"
+                onChange={handleImport}
+              />
+              <button
+                className="dashboard__btn dashboard__btn--secondary"
+                onClick={() => fileInputRef.current.click()}
+              >
+                Import
+              </button>
+              <button
+                className="dashboard__btn dashboard__btn--secondary"
+                onClick={() => setIsExportPopupOpen(true)}
+              >
+                Export
+              </button>
+
+              <button
+                className="add-transaction-btn"
+                onClick={() => setIsPopupOpen(true)}
+              >
+                Add Transaction
+              </button>
+            </div>
           </div>
 
           <Popup
@@ -141,6 +200,42 @@ const Dashboard = () => {
                   });
                 }}
               />
+            </div>
+          </Popup>
+
+          <Popup
+            isOpen={isExportPopupOpen}
+            onClose={() => setIsExportPopupOpen(false)}
+            title="Export Data"
+          >
+            <div className="dashboard__export-form">
+              <p className="dashboard__export-help">Enter a name for your backup file:</p>
+              <div className="dashboard__export-input-group">
+                <input
+                  type="text"
+                  className="dashboard__export-input"
+                  value={exportFileName}
+                  onChange={(e) => setExportFileName(e.target.value)}
+                  placeholder="cashflow_data"
+                  autoFocus
+                  onKeyDown={(e) => e.key === "Enter" && handleExport()}
+                />
+                <span className="dashboard__export-extension">.json</span>
+              </div>
+              <div className="dashboard__export-actions">
+                <button
+                  className="dashboard__btn dashboard__btn--secondary"
+                  onClick={() => setIsExportPopupOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="dashboard__btn add-transaction-btn"
+                  onClick={handleExport}
+                >
+                  Download
+                </button>
+              </div>
             </div>
           </Popup>
 
