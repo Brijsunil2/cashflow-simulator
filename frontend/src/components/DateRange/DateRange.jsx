@@ -1,10 +1,14 @@
 import "./DateRange.scss";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const DateRangePicker = ({ onChange }) => {
-  const [range, setRange] = useState();
+const DateRangePicker = ({ onChange, selectedRange }) => {
+  const [range, setRange] = useState(selectedRange);
+
+  useEffect(() => {
+    setRange(selectedRange);
+  }, [selectedRange]);
 
   const handleSelect = (selectedRange, selectedDay) => {
     let newRange = selectedRange;

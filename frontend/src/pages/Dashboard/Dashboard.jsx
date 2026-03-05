@@ -26,6 +26,36 @@ const Dashboard = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [dateRange, setDateRange] = useState(null);
 
+  const [rangeInput, setRangeInput] = useState("");
+
+  const parseDateRange = (input) => {
+    const parts = input.split(/\s+to\s+/i);
+    if (parts.length === 2) {
+      const from = new Date(parts[0].trim());
+      const to = new Date(parts[1].trim());
+      if (!isNaN(from.getTime()) && !isNaN(to.getTime())) {
+        return { from, to };
+      }
+    }
+    return null;
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setRangeInput(value);
+    const parsed = parseDateRange(value);
+    if (parsed) {
+      setDateRange(parsed);
+    }
+  };
+
+  const formattedRange = (range) => {
+    if (!range?.from) return "";
+    const fromStr = range.from.toISOString().split("T")[0];
+    const toStr = range.to ? range.to.toISOString().split("T")[0] : fromStr;
+    return `${fromStr} to ${toStr}`;
+  };
+
   const displayedTransactions =
     dateRange?.from && dateRange?.to
       ? selectTransactionsByDateRange(state, dateRange.from, dateRange.to)
@@ -57,10 +87,33 @@ const Dashboard = () => {
             <div className="dashboard__date-range-wrapper">
               <HoverCard
                 clickOnly={true}
-                trigger={<button className="dashboard__date-range-btn">Select Date Range</button>}
+                trigger={
+                  <div className="dashboard__date-range-input-wrapper">
+                    <input
+                      type="text"
+                      className="dashboard__date-range-input"
+                      placeholder="YYYY-MM-DD to YYYY-MM-DD"
+                      value={rangeInput}
+                      onChange={handleInputChange}
+                    />
+                    <button className="dashboard__date-range-btn">
+                      <span className="calendar-icon">📅</span>
+                    </button>
+                  </div>
+                }
               >
                 <div className="dashboard__date-range-popup-content">
-                  <DateRange onChange={setDateRange} />
+                  <DateRange
+                    selectedRange={dateRange}
+                    onChange={(newRange) => {
+                      setDateRange(newRange);
+                      if (newRange) {
+                        setRangeInput(formattedRange(newRange));
+                      } else {
+                        setRangeInput("");
+                      }
+                    }}
+                  />
                 </div>
               </HoverCard>
             </div>
@@ -92,10 +145,6 @@ const Dashboard = () => {
           </Popup>
 
           <div className="dashboard__content-body">
-            {state.transactions.length > 0 && (
-              <div className="dashboard_charts"></div>
-            )}
-
             <div className="dashboard__transactions">
               <TransactionList
                 transactions={displayedTransactions}
