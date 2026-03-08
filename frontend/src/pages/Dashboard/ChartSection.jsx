@@ -7,36 +7,52 @@ const ChartSection = ({ displayedSummary, chartData, displayedTransactions = [] 
 
     const lineGraphData = useMemo(() => {
         if (!displayedTransactions || displayedTransactions.length === 0) {
-            return [{
-                id: "Net Balance",
-                color: "#3b82f6",
-                data: []
-            }];
+            return [];
         }
 
         let cumulativeBalance = 0;
-        const dataPoints = [];
+        let cumulativeIncome = 0;
+        let cumulativeExpense = 0;
+
+        const balancePoints = [];
+        const incomePoints = [];
+        const expensePoints = [];
 
         // Transactions are usually sorted newest first, reverse to process chronologically
         const sortedTransactions = [...displayedTransactions].reverse();
 
+        // Calculate cumulative running totals per each point in time
         sortedTransactions.forEach(transaction => {
             if (transaction.type === 'income') {
                 cumulativeBalance += transaction.amount;
+                cumulativeIncome += transaction.amount;
             } else if (transaction.type === 'expense') {
                 cumulativeBalance -= transaction.amount;
+                cumulativeExpense += transaction.amount; // track as positive magnitude for the graph
             }
-            dataPoints.push({
-                x: new Date(transaction.date),
-                y: cumulativeBalance
-            });
+
+            const date = new Date(transaction.date);
+
+            balancePoints.push({ x: date, y: cumulativeBalance });
+            incomePoints.push({ x: date, y: cumulativeIncome });
+            expensePoints.push({ x: date, y: cumulativeExpense });
         });
 
         return [
             {
+                id: "Income",
+                color: "#10b981",
+                data: incomePoints
+            },
+            {
+                id: "Expenses",
+                color: "#ef4444",
+                data: expensePoints
+            },
+            {
                 id: "Net Balance",
                 color: "#3b82f6",
-                data: dataPoints
+                data: balancePoints
             }
         ];
     }, [displayedTransactions]);
@@ -90,7 +106,7 @@ const ChartSection = ({ displayedSummary, chartData, displayedTransactions = [] 
                                 <PieChart data={chartData} innerRadiusRatio={0.7} />
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                {lineGraphData[0].data.length > 0 ? (
+                                {lineGraphData.length > 0 && lineGraphData[0].data.length > 0 ? (
                                     <LineGraph data={lineGraphData} />
                                 ) : (
                                     <div className="dashboard__chart-empty">
