@@ -179,11 +179,19 @@
 
   &__row {
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto;
     gap: $space-4;
     align-items: center;
-    cursor: pointer;
     padding: 0;
+  }
+
+  &__data {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: $space-4;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
   }
 
   &__name {
@@ -251,63 +259,15 @@
   ========================= */
 
   &__details {
-    font-size: $font-sm;
-    padding: 1rem;
-    background: white;
-    border: 1px solid $color-border;
-    border-radius: 8px;
-    margin-top: 0.5rem;
-
-    opacity: 0;
-    transform: translateY(-6px);
-    pointer-events: none;
-
-    transition: opacity 0.2s ease, transform 0.2s ease;
-  }
-
-  /* =========================
-     MOBILE BEHAVIOR
-  ========================= */
-
-  &.mobile-open &__details {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .delete-transaction-popup {
-    button {
-      margin: 1rem 0;
-    }
+    display: none; // Managed by HoverCard now
   }
 }
 
-/* =========================
-   DESKTOP HOVER POPUP
-========================= */
-
-@media (hover: hover) {
-  .transaction-item__details {
-    position: absolute;
-    left: 0;
-    top: 100%;
-    width: 320px;
-    z-index: 10;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  }
-
-  .transaction-item:hover .transaction-item__details {
-    opacity: 1;
-    transform: translateY(8px);
-    pointer-events: auto;
-  }
-
-  /* Disable mobile open class on desktop */
-  .transaction-item.mobile-open .transaction-item__details {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
+/* Mobile behavior override - HoverCard handles this now */
+@media (hover: none) {
+  // Can be removed if HoverCard is working as intended
 }
+
 
 /* =========================
    ICONS

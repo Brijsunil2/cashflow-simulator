@@ -27,9 +27,15 @@
     gap: $space-3;
 
     @media (max-width: map.get($breakpoints, md)) {
-      flex-direction: column;
-      align-items: stretch;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
       width: 100%;
+    }
+
+    /* Override HoverCard default width: 100% to keep icons horizontal */
+    .hover-card {
+      width: auto;
     }
   }
 
@@ -323,8 +329,8 @@
     width: 100%;
 
     @media (max-width: map.get($breakpoints, md)) {
-      align-items: stretch;
-      flex-direction: column;
+      justify-content: center;
+      padding: $space-4;
     }
   }
 
