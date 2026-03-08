@@ -63,7 +63,10 @@ const TransactionList = ({ transactions, onDelete, onEdit, dateRange }) => {
         </div>
       ) : (
         <>
-          <ul className="transaction-list transaction-list--screen">
+          <ul
+            key={currentPage}
+            className="transaction-list transaction-list--screen"
+          >
             {paginatedItems.map((transaction, index) => {
               const previous = paginatedItems[index - 1];
               const showDateHeader =
