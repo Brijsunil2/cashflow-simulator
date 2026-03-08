@@ -1,34 +1,66 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import "./PieChart.scss";
 
-const PieChart = ({ data, width = 300, height = 300, innerRadius = 0 }) => {
+/**
+ * Professional, Responsive Pie/Donut Chart Component
+ * @param {Array} data - Array of { label, value, color }
+ * @param {number} innerRadiusRatio - 0 for Pie, 0.5-0.7 for Donut
+ * @param {string} title - Optional title inside/above
+ */
+const PieChart = ({ data = [], innerRadiusRatio = 0.6 }) => {
+    const containerRef = useRef(null);
     const svgRef = useRef(null);
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    const [tooltip, setTooltip] = useState({ show: false, data: null, x: 0, y: 0 });
+
+    // Handle responsiveness
+    useEffect(() => {
+        const observeTarget = containerRef.current;
+        if (!observeTarget) return;
+
+        const resizeObserver = new ResizeObserver((entries) => {
+            if (!entries[0]) return;
+            const { width, height } = entries[0].contentRect;
+            setDimensions({ width, height });
+        });
+
+        resizeObserver.observe(observeTarget);
+        return () => resizeObserver.disconnect();
+    }, []);
 
     useEffect(() => {
-        if (!data || data.length === 0) return;
+        const { width, height } = dimensions;
+        if (width === 0 || height === 0 || !data.length) return;
 
         const svg = d3.select(svgRef.current);
         svg.selectAll("*").remove();
 
-        const radius = Math.min(width, height) / 2;
+        const isSmall = width < 300;
+        const margin = 10;
+        const radius = Math.min(width, height) / 2 - margin;
+        const innerRadius = radius * innerRadiusRatio;
+
         const g = svg
             .append("g")
             .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-        const pie = d3.pie().value((d) => d.value).sort(null);
+        const pie = d3.pie()
+            .value((d) => d.value)
+            .sort(null)
+            .padAngle(0.02);
 
         const arc = d3.arc()
             .innerRadius(innerRadius)
-            .outerRadius(radius * 0.8);
+            .outerRadius(radius);
 
         const outerArc = d3.arc()
-            .innerRadius(radius * 0.9)
-            .outerRadius(radius * 0.9);
+            .innerRadius(radius * 1.1)
+            .outerRadius(radius * 1.1);
 
         const color = d3.scaleOrdinal()
             .domain(data.map((d) => d.label))
-            .range(data.map((d) => d.color || d3.interpolateSpectral(data.indexOf(d) / data.length)));
+            .range(data.map((d, i) => d.color || d3.schemeTableau10[i % 10]));
 
         // Slices
         const slices = g
@@ -42,58 +74,86 @@ const PieChart = ({ data, width = 300, height = 300, innerRadius = 0 }) => {
             .append("path")
             .attr("d", arc)
             .attr("fill", (d) => color(d.data.label))
-            .attr("stroke", "white")
-            .style("stroke-width", "2px")
-            .style("opacity", 0.8)
-            .on("mouseover", function () {
-                d3.select(this).style("opacity", 1).style("cursor", "pointer");
+            .attr("stroke", "rgba(255,255,255,0.2)")
+            .style("stroke-width", "1px")
+            .style("transition", "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)")
+            .on("mouseover", function (event, d) {
+                d3.select(this)
+                    .attr("transform", "scale(1.03)")
+                    .style("filter", "brightness(1.1)");
+
+                const [x, y] = d3.pointer(event, containerRef.current);
+                const total = d3.sum(data, d => d.value);
+                const percent = (d.data.value / total) * 100;
+
+                setTooltip({
+                    show: true,
+                    data: { ...d.data, percent: percent.toFixed(1) },
+                    x,
+                    y: y - 10
+                });
+            })
+            .on("mousemove", function (event) {
+                const [x, y] = d3.pointer(event, containerRef.current);
+                setTooltip(prev => ({ ...prev, x, y: y - 10 }));
             })
             .on("mouseout", function () {
-                d3.select(this).style("opacity", 0.8);
+                d3.select(this)
+                    .attr("transform", "scale(1)")
+                    .style("filter", "none");
+                setTooltip(prev => ({ ...prev, show: false }));
             });
 
-        // Labels & Lines
-        const total = d3.sum(data, (d) => d.value);
+        // Center Labels (Donut)
+        if (innerRadiusRatio > 0) {
+            const total = d3.sum(data, d => d.value);
 
-        slices
-            .append("text")
-            .attr("transform", (d) => {
-                const pos = outerArc.centroid(d);
-                const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                pos[0] = radius * 0.95 * (midAngle < Math.PI ? 1 : -1);
-                return `translate(${pos})`;
-            })
-            .attr("dy", ".35em")
-            .style("text-anchor", (d) => {
-                const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                return midAngle < Math.PI ? "start" : "end";
-            })
-            .text((d) => {
-                const percent = (d.data.value / total) * 100;
-                return `${d.data.label} (${percent.toFixed(1)}%)`;
-            })
-            .style("font-size", "12px")
-            .style("font-weight", "600")
-            .style("fill", "#4b5563");
+            const summaryGroup = g.append("g").attr("class", "chart-center-text");
 
-        slices
-            .append("polyline")
-            .attr("points", (d) => {
-                const pos = outerArc.centroid(d);
-                const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                pos[0] = radius * 0.9 * (midAngle < Math.PI ? 1 : -1);
-                return [arc.centroid(d), outerArc.centroid(d), pos];
-            })
-            .style("fill", "none")
-            .style("stroke", "#cbd5e1")
-            .style("stroke-width", "1px")
-            .style("opacity", 0.5);
+            summaryGroup.append("text")
+                .attr("text-anchor", "middle")
+                .attr("dy", "-0.2em")
+                .attr("class", "center-label")
+                .text("Total");
 
-    }, [data, width, height, innerRadius]);
+            summaryGroup.append("text")
+                .attr("text-anchor", "middle")
+                .attr("dy", "1.1em")
+                .attr("class", "center-value")
+                .text(`$${total.toLocaleString()}`);
+        }
+
+
+    }, [dimensions, data, innerRadiusRatio]);
 
     return (
-        <div className="pie-chart-container">
-            <svg ref={svgRef} width={width} height={height}></svg>
+        <div className="pie-chart-root" ref={containerRef}>
+            <div className="pie-chart-main">
+                <svg
+                    ref={svgRef}
+                    viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+                    preserveAspectRatio="xMidYMid meet"
+                ></svg>
+            </div>
+
+            {tooltip.show && (
+                <div
+                    className="chart-tooltip"
+                    style={{
+                        left: tooltip.x,
+                        top: tooltip.y,
+                    }}
+                >
+                    <div className="tooltip-header">
+                        <span className="tooltip-dot" style={{ backgroundColor: tooltip.data.color }}></span>
+                        <span className="tooltip-label">{tooltip.data.label}</span>
+                    </div>
+                    <div className="tooltip-body">
+                        <span className="tooltip-value">${tooltip.data.value.toLocaleString()}</span>
+                        <span className="tooltip-percent">{tooltip.data.percent}%</span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

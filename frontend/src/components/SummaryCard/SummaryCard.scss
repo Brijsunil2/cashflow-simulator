@@ -88,6 +88,9 @@
       &.negative {
         color: $color-expense;
       }
+      &.neutral {
+        color: $color-text-primary;
+      }
     }
   }
 }

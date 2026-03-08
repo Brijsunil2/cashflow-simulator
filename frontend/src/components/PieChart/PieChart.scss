@@ -1,21 +1,119 @@
 @use "../../styles/abstracts/colors" as *;
 @use "../../styles/abstracts/spacing" as *;
+@use "../../styles/abstracts/typography" as *;
 
-.pie-chart-container {
+.pie-chart-root {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
   width: 100%;
-  padding: $space-4;
-  background: white;
-  border-radius: 12px;
+  height: 100%;
+  gap: $space-6;
+  min-height: 250px;
+  background: transparent;
+  position: relative;
+
+  &.pie-chart--small {
+    flex-direction: column;
+    gap: $space-4;
+  }
+}
+
+.pie-chart-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 100%;
+  max-width: 800px;
 
   svg {
-    max-width: 100%;
+    width: 100%;
     height: auto;
+    overflow: visible;
+  }
+}
+
+.chart-center-text {
+  pointer-events: none;
+
+  .center-label {
+    font-size: 0.85rem;
+    font-weight: $weight-medium;
+    fill: $color-text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
-  .slice path {
-    transition: transform 0.2s ease, opacity 0.2s ease;
+  .center-value {
+    font-size: 1.5rem;
+    font-weight: $weight-bold;
+    fill: $color-text-primary;
+  }
+}
+
+.slice-label, .label-line, .pie-chart-legend {
+  display: none;
+}
+
+.chart-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: white;
+  border: 1px solid $color-primary-100;
+  border-radius: 8px;
+  padding: $space-3;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translate(-50%, -100%);
+  z-index: 100;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  transition: transform 0.1s ease-out;
+
+  .tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    margin-bottom: 2px;
+  }
+
+  .tooltip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .tooltip-label {
+    font-size: $font-xs;
+    font-weight: $weight-bold;
+    color: $color-text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tooltip-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: $space-4;
+  }
+
+  .tooltip-value {
+    font-size: $font-md;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+  }
+
+  .tooltip-percent {
+    font-size: $font-xs;
+    font-weight: $weight-semibold;
+    color: $color-primary-600;
+    padding: 2px 6px;
+    background: $color-primary-50;
+    border-radius: 4px;
   }
 }

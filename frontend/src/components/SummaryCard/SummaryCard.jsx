@@ -28,7 +28,7 @@ const SummaryCard = ({ totalIncome, totalExpenses, netBalance }) => {
           <h2 className="summary-item__label">Net Balance</h2>
           <p className="summary-item__description">Net balance is the difference between total income and total expenses.</p>
         </div>
-        <p className={`summary-item__value ${netBalance >= 0 ? 'positive' : 'negative'}`}>
+        <p className={`summary-item__value neutral`}>
           {netBalance < 0 ? "-" : ""}${Math.abs(netBalance).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </p>
       </div>
