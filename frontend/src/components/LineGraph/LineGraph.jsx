@@ -46,15 +46,21 @@ const LineGraph = ({ data = [], xAxisFormat = "%b", yAxisFormat = "$.2s" }) => {
 
         const isDateX = allPoints[0].x instanceof Date;
 
-        // X Scale
+        // X Scale (add padding so lines don't hug the edges)
         const xScale = (isDateX ? d3.scaleTime() : d3.scalePoint())
             .domain(d3.extent(allPoints, d => d.x))
-            .range([0, innerWidth]);
+            .range([15, innerWidth - 15]);
 
-        // Y Scale (extend slightly above max for headroom)
+        // Y Scale (extend slightly above max and below min for headroom)
         const yMax = d3.max(allPoints, d => d.y);
+        const yMin = d3.min(allPoints, d => d.y);
+
+        // Ensure the domain floor goes below 0 if we have negative values, otherwise pad slightly below the minimum positive value or stick to 0.
+        const yDomainFloor = yMin < 0 ? yMin * 1.1 : Math.min(0, yMin * 0.9);
+        const yDomainCeiling = yMax > 0 ? yMax * 1.1 : Math.max(0, yMax * 0.9);
+
         const yScale = d3.scaleLinear()
-            .domain([0, yMax * 1.1])
+            .domain([yDomainFloor, yDomainCeiling])
             .range([innerHeight, 0]);
 
         const group = svg.append("g")
