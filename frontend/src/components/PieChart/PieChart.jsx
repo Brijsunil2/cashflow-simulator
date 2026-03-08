@@ -8,7 +8,7 @@ import "./PieChart.scss";
  * @param {number} innerRadiusRatio - 0 for Pie, 0.5-0.7 for Donut
  * @param {string} title - Optional title inside/above
  */
-const PieChart = ({ data = [], innerRadiusRatio = 0.6 }) => {
+const PieChart = ({ data = [], innerRadiusRatio = 0.4 }) => {
     const containerRef = useRef(null);
     const svgRef = useRef(null);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });

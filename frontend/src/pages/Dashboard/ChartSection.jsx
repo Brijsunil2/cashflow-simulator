@@ -1,8 +1,45 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PieChart from "../../components/PieChart/PieChart";
+import LineGraph from "../../components/LineGraph/LineGraph";
 
-const ChartSection = ({ displayedSummary, chartData }) => {
+const ChartSection = ({ displayedSummary, chartData, displayedTransactions = [] }) => {
     const [isChartExpanded, setIsChartExpanded] = useState(true);
+
+    const lineGraphData = useMemo(() => {
+        if (!displayedTransactions || displayedTransactions.length === 0) {
+            return [{
+                id: "Net Balance",
+                color: "#3b82f6",
+                data: []
+            }];
+        }
+
+        let cumulativeBalance = 0;
+        const dataPoints = [];
+
+        // Transactions are usually sorted newest first, reverse to process chronologically
+        const sortedTransactions = [...displayedTransactions].reverse();
+
+        sortedTransactions.forEach(transaction => {
+            if (transaction.type === 'income') {
+                cumulativeBalance += transaction.amount;
+            } else if (transaction.type === 'expense') {
+                cumulativeBalance -= transaction.amount;
+            }
+            dataPoints.push({
+                x: new Date(transaction.date),
+                y: cumulativeBalance
+            });
+        });
+
+        return [
+            {
+                id: "Net Balance",
+                color: "#3b82f6",
+                data: dataPoints
+            }
+        ];
+    }, [displayedTransactions]);
 
     return (
         <div className="dashboard__chart-section">
@@ -33,13 +70,35 @@ const ChartSection = ({ displayedSummary, chartData }) => {
             </div>
 
             {isChartExpanded && (
-                <div className="dashboard__chart-wrapper">
+                <div
+                    className="dashboard__chart-wrapper"
+                    style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                        gap: '2rem',
+                        aspectRatio: 'auto', /* Override Dashboard.scss aspect ratio to prevent horizontal blowout */
+                        height: 'auto'
+                    }}
+                >
                     {displayedSummary.totalIncome === 0 && displayedSummary.totalExpenses === 0 ? (
-                        <div className="dashboard__chart-empty">
+                        <div className="dashboard__chart-empty" style={{ gridColumn: '1 / -1' }}>
                             <p>No transactions found for this period.</p>
                         </div>
                     ) : (
-                        <PieChart data={chartData} innerRadiusRatio={0.7} />
+                        <>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <PieChart data={chartData} innerRadiusRatio={0.7} />
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                {lineGraphData[0].data.length > 0 ? (
+                                    <LineGraph data={lineGraphData} />
+                                ) : (
+                                    <div className="dashboard__chart-empty">
+                                        <p>Not enough data points for trend line.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </>
                     )}
                 </div>
             )}

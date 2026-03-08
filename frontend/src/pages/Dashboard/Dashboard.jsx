@@ -138,6 +138,7 @@ const Dashboard = () => {
             <ChartSection
               displayedSummary={displayedSummary}
               chartData={chartData}
+              displayedTransactions={displayedTransactions}
             />
 
             <div className="dashboard__transactions">
