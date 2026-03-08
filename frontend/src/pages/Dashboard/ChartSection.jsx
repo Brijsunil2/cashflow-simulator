@@ -51,7 +51,7 @@ const ChartSection = ({ displayedSummary, chartData, displayedTransactions = [] 
             },
             {
                 id: "Net Balance",
-                color: "#3b82f6",
+                color: "#047857",
                 data: balancePoints
             }
         ];
