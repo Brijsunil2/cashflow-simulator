@@ -19,7 +19,7 @@ const initialState = {
   userId: "user123",
   currency: "CAD",
   transactions:
-    import.meta.env.VITE_APP_ENV === "development" ? testTransactions : [],
+    import.meta.env.VITE_APP_ENV != "production" ? testTransactions : [],
 };
 
 const Dashboard = () => {
