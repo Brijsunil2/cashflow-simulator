@@ -111,6 +111,10 @@
   margin: 0;
 }
 
+.transaction-list--print {
+  display: none;
+}
+
 .transaction-group {
   display: flex;
   flex-direction: column;
@@ -441,5 +445,22 @@
     height: 1px;
     background-color: $color-gray-100;
     margin: $space-1 0;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Print Styles                                                               */
+/* -------------------------------------------------------------------------- */
+@media print {
+  .icon-menu,
+  .kebab-menu-dropdown,
+  .transaction-item__actions,
+  .transaction-list--screen,
+  .transaction-list-pagination {
+    display: none !important;
+  }
+  
+  .transaction-list--print {
+    display: block !important;
   }
 }

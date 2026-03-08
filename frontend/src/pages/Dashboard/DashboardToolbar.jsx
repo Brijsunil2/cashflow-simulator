@@ -96,6 +96,12 @@ const DashboardToolbar = ({
                 >
                     Export
                 </button>
+                <button
+                    className="dashboard__btn dashboard__btn--secondary"
+                    onClick={() => window.print()}
+                >
+                    Print
+                </button>
 
                 <button
                     className="add-transaction-btn"

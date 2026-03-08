@@ -104,6 +104,39 @@ const PieChart = ({ data = [], innerRadiusRatio = 0.6 }) => {
                 setTooltip(prev => ({ ...prev, show: false }));
             });
 
+        // Slice Labels (for print or default display)
+        const total = d3.sum(data, (d) => d.value);
+
+        const textElements = slices
+            .append("text")
+            .attr("class", "pie-chart-static-label")
+            .attr("transform", function (d) {
+                // Calculate position slightly outside the slice for readability
+                const pos = outerArc.centroid(d);
+                return `translate(${pos})`;
+            })
+            .attr("dy", "0.35em")
+            .attr("text-anchor", function (d) {
+                // Align text based on which side of the chart it falls
+                const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                return midAngle < Math.PI ? "start" : "end";
+            });
+
+        textElements.append("tspan")
+            .style("font-weight", 600)
+            .style("fill", "#374151")
+            .text(d => d.data.label);
+
+        textElements.append("tspan")
+            .attr("x", 0)
+            .attr("dy", "1.2em")
+            .style("fill", "#6b7280")
+            .style("font-size", "0.85em")
+            .text(d => {
+                const percent = ((d.data.value / total) * 100).toFixed(1);
+                return `$${d.data.value.toLocaleString()} (${percent}%)`;
+            });
+
         // Center Labels (Donut)
         if (innerRadiusRatio > 0) {
             const total = d3.sum(data, d => d.value);

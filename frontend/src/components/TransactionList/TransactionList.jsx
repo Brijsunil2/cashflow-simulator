@@ -4,7 +4,7 @@ import { TRANSACTION_TYPE } from "../../logic/transactionConstants";
 import Pagination from "../Pagination/Pagination";
 import { usePagination } from "../../logic/usePagination";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 5;
 
 const TransactionList = ({ transactions, onDelete, onEdit, dateRange }) => {
   const {
@@ -63,11 +63,11 @@ const TransactionList = ({ transactions, onDelete, onEdit, dateRange }) => {
         </div>
       ) : (
         <>
-          <ul className="transaction-list">
+          <ul className="transaction-list transaction-list--screen">
             {paginatedItems.map((transaction, index) => {
               const previous = paginatedItems[index - 1];
               const showDateHeader =
-                index === 0 || previous.date !== transaction.date;
+                index === 0 || previous?.date !== transaction.date;
 
               return (
                 <li key={transaction.id} className="transaction-group">
@@ -87,11 +87,37 @@ const TransactionList = ({ transactions, onDelete, onEdit, dateRange }) => {
             })}
           </ul>
 
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+          <div className="transaction-list-pagination">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
+
+          <ul className="transaction-list transaction-list--print">
+            {transactions.map((transaction, index) => {
+              const previous = transactions[index - 1];
+              const showDateHeader =
+                index === 0 || previous?.date !== transaction.date;
+
+              return (
+                <li key={transaction.id} className="transaction-group">
+                  {showDateHeader && (
+                    <h3 className="transaction-date">
+                      {transaction.date}
+                    </h3>
+                  )}
+
+                  <TransactionItem
+                    transaction={transaction}
+                    onDelete={onDelete}
+                    onEdit={onEdit}
+                  />
+                </li>
+              );
+            })}
+          </ul>
         </>
       )}
     </section>

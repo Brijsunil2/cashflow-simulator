@@ -54,7 +54,7 @@
   }
 }
 
-.slice-label, .label-line, .pie-chart-legend {
+.slice-label, .label-line, .pie-chart-legend, .pie-chart-static-label {
   display: none;
 }
 
@@ -115,5 +115,22 @@
     padding: 2px 6px;
     background: $color-primary-50;
     border-radius: 4px;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Print Styles                                                               */
+/* -------------------------------------------------------------------------- */
+@media print {
+  .chart-tooltip {
+    display: none !important;
+  }
+
+  .pie-chart-static-label {
+    display: block !important;
+  }
+  
+  .pie-chart-root {
+    min-height: 150px;
   }
 }

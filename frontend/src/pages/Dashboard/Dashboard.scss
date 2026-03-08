@@ -429,4 +429,53 @@
     gap: $space-3;
     margin-top: $space-2;
   }
+
+  /* -------------------------------------------------------------------------- */
+  /* Print Styles                                                               */
+  /* -------------------------------------------------------------------------- */
+  @media print {
+    /* Reset layout wrapper constraints */
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    
+    /* Hide headers and inputs */
+    &__header,
+    &__subheader,
+    &__chart-toggle {
+      display: none !important;
+    }
+
+    /* Clean up the chart area */
+    &__chart-section {
+      background-color: transparent;
+      border: none;
+      break-inside: avoid;
+    }
+
+    /* Remove drop shadows from the main container */
+    &__content {
+      box-shadow: none;
+      border: none;
+    }
+
+    /* Hide edit/delete actions visually */
+    .dashboard__transactions .btn--delete,
+    .dashboard__transactions .btn--edit {
+      display: none !important;
+    }
+
+    /* Force the transaction list to start on a new page */
+    .dashboard__transactions {
+      page-break-before: always;
+      break-before: page;
+    }
+    
+    /* Reduce vertical space of PieChart on print */
+    &__chart-wrapper {
+      min-height: 150px;
+      aspect-ratio: auto;
+      height: 250px;
+    }
+  }
 }
