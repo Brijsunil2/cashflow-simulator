@@ -81,6 +81,19 @@ const Dashboard = () => {
     { totalIncome: 0, totalExpenses: 0, netBalance: 0 }
   );
 
+  const globalSummary = state.transactions.reduce(
+    (acc, tx) => {
+      if (tx.type === "income") {
+        acc.totalIncome += tx.amount;
+      } else {
+        acc.totalExpenses += tx.amount;
+      }
+      acc.netBalance = acc.totalIncome - acc.totalExpenses;
+      return acc;
+    },
+    { totalIncome: 0, totalExpenses: 0, netBalance: 0 }
+  );
+
   const chartData = [
     { label: "Income", value: displayedSummary.totalIncome, color: "#10b981" },
     { label: "Expenses", value: displayedSummary.totalExpenses, color: "#ef4444" },
@@ -93,9 +106,9 @@ const Dashboard = () => {
 
         <section className="dashboard__summary">
           <SummaryCard
-            netBalance={displayedSummary.netBalance}
-            totalIncome={displayedSummary.totalIncome}
-            totalExpenses={displayedSummary.totalExpenses}
+            netBalance={globalSummary.netBalance}
+            totalIncome={globalSummary.totalIncome}
+            totalExpenses={globalSummary.totalExpenses}
           />
         </section>
 
