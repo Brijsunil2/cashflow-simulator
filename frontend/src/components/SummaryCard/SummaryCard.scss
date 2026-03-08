@@ -18,49 +18,47 @@
 .summary-item {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   background-color: $color-surface;
   border: 1px solid $color-border;
-  padding: $space-6;
-  border-radius: 16px;
+  padding: $space-4 $space-5;
+  border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
     border-color: $color-primary-200;
   }
 
   &__info {
     display: flex;
     flex-direction: column;
-    gap: $space-1;
-    margin-bottom: $space-6;
+    gap: $space-0;
+    margin-bottom: $space-2;
   }
 
   &__label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: $color-text-secondary;
     font-weight: $weight-bold;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     margin: 0;
   }
 
   &__description {
-    font-size: 0.85rem;
-    color: $color-text-muted;
-    line-height: $line-tight;
-    margin: 0;
+    display: none;
   }
 
   &__value {
-    font-size: 2.25rem;
-    font-weight: $weight-semibold;
+    font-size: 1.75rem;
+    font-weight: $weight-bold;
     color: $color-text-primary;
     margin: 0;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
+    line-height: 1;
   }
 
   &--income {
