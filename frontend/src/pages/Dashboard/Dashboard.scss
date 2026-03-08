@@ -55,6 +55,26 @@
         border-color: $color-primary-300;
       }
     }
+
+    &--icon {
+      padding: $space-2;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      
+      svg {
+        display: block;
+      }
+    }
+  }
+
+  &__tooltip {
+    font-size: $font-xs;
+    font-weight: $weight-semibold;
+    color: $color-text-primary;
+    white-space: nowrap;
+    padding: $space-1 $space-2;
   }
 
   .add-transaction-btn {
@@ -78,6 +98,18 @@
 
     &:active {
       transform: scale(0.98);
+    }
+
+    &--icon {
+      padding: $space-2;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      
+      svg {
+        display: block;
+      }
     }
   }
 
@@ -442,7 +474,8 @@
     /* Hide headers and inputs */
     &__header,
     &__subheader,
-    &__chart-toggle {
+    &__chart-toggle,
+    .hover-card__content {
       display: none !important;
     }
 

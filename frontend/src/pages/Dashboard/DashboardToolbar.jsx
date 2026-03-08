@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { FiPrinter, FiUploadCloud, FiDownloadCloud, FiPlus } from 'react-icons/fi';
 import HoverCard from "../../components/HoverCard/HoverCard";
 import DateRange from "../../components/DateRange/DateRange";
 
@@ -84,31 +85,70 @@ const DashboardToolbar = ({
                     accept=".json"
                     onChange={onImport}
                 />
-                <button
-                    className="dashboard__btn dashboard__btn--secondary"
-                    onClick={() => fileInputRef.current.click()}
-                >
-                    Import
-                </button>
-                <button
-                    className="dashboard__btn dashboard__btn--secondary"
-                    onClick={onOpenExport}
-                >
-                    Export
-                </button>
-                <button
-                    className="dashboard__btn dashboard__btn--secondary"
-                    onClick={() => window.print()}
-                >
-                    Print
-                </button>
 
-                <button
-                    className="add-transaction-btn"
-                    onClick={onOpenAddTransaction}
+                <HoverCard
+                    align="right"
+                    minWidth="auto"
+                    trigger={
+                        <button
+                            className="dashboard__btn dashboard__btn--secondary dashboard__btn--icon"
+                            onClick={() => fileInputRef.current.click()}
+                            aria-label="Import Data"
+                        >
+                            <FiUploadCloud />
+                        </button>
+                    }
                 >
-                    Add Transaction
-                </button>
+                    <span className="dashboard__tooltip">Import</span>
+                </HoverCard>
+
+                <HoverCard
+                    align="right"
+                    minWidth="auto"
+                    trigger={
+                        <button
+                            className="dashboard__btn dashboard__btn--secondary dashboard__btn--icon"
+                            onClick={onOpenExport}
+                            aria-label="Export Data"
+                        >
+                            <FiDownloadCloud />
+                        </button>
+                    }
+                >
+                    <span className="dashboard__tooltip">Export</span>
+                </HoverCard>
+
+                <HoverCard
+                    align="right"
+                    minWidth="auto"
+                    trigger={
+                        <button
+                            className="dashboard__btn dashboard__btn--secondary dashboard__btn--icon"
+                            onClick={() => window.print()}
+                            aria-label="Print Dashboard"
+                        >
+                            <FiPrinter />
+                        </button>
+                    }
+                >
+                    <span className="dashboard__tooltip">Print</span>
+                </HoverCard>
+
+                <HoverCard
+                    align="right"
+                    minWidth="auto"
+                    trigger={
+                        <button
+                            className="add-transaction-btn add-transaction-btn--icon"
+                            onClick={onOpenAddTransaction}
+                            aria-label="Add Transaction"
+                        >
+                            <FiPlus />
+                        </button>
+                    }
+                >
+                    <span className="dashboard__tooltip">Add Transaction</span>
+                </HoverCard>
             </div>
         </div>
     );
