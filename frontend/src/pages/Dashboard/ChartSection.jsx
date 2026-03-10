@@ -106,7 +106,7 @@ const ChartSection = ({ displayedSummary, chartData, displayedTransactions = [] 
                                 <PieChart data={chartData} innerRadiusRatio={0.7} />
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                {lineGraphData.length > 0 && lineGraphData[0].data.length > 0 ? (
+                                {lineGraphData.length > 1 && lineGraphData[0].data.length > 1 ? (
                                     <LineGraph data={lineGraphData} />
                                 ) : (
                                     <div className="dashboard__chart-empty">
