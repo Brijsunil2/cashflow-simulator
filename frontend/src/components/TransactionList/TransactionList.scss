@@ -440,3 +440,16 @@
     display: block !important;
   }
 }
+@media print {
+  .icon-menu,
+  .kebab-menu-dropdown,
+  .transaction-item__actions,
+  .transaction-list--screen,
+  .transaction-list-pagination {
+    display: none !important;
+  }
+  
+  .transaction-list--print {
+    display: block !important;
+  }
+}
