@@ -7,6 +7,7 @@ import {
   EXPENSE_CATEGORIES,
   INITIAL_TRANSACTION,
 } from "../../logic/transactionConstants";
+import { formatLabel } from "../../util/stringManipulation";
 
 const TransactionForm = ({ onSubmit, initialData }) => {
   const [transaction, setTransaction] = useState(initialData || INITIAL_TRANSACTION);
@@ -71,86 +72,88 @@ const TransactionForm = ({ onSubmit, initialData }) => {
   return (
     <form className="transaction-form" onSubmit={handleSubmit}>
       <div className="form-field">
+        <label>
+          Name <span>*</span>
+        </label>
         <input
-          placeholder=" "
+          placeholder="Enter transaction name"
           value={transaction.name}
           onChange={(e) => handleChange("name", e.target.value)}
           required={true}
         />
-        <label>
-          Name <span>*</span>
-        </label>
       </div>
 
       <div className="form-field">
+        <label>
+          Date <span>*</span>
+        </label>
         <input
           type="date"
-          placeholder=" "
           value={transaction.date || today}
           onChange={(e) => handleChange("date", e.target.value)}
           required={true}
         />
-        <label>
-          Date <span>*</span>
-        </label>
       </div>
 
       <div className="form-field amount-field">
-        <span className="currency-symbol">$</span>
-        <input
-          type="number"
-          name="amount"
-          value={transaction.amount}
-          onChange={(e) => handleChange("amount", e.target.value)}
-          min={0}
-          required={true}
-        />
         <label>
           Amount <span>*</span>
         </label>
+        <div className="input-with-symbol">
+          <span className="currency-symbol">$</span>
+          <input
+            type="number"
+            name="amount"
+            placeholder="0.00"
+            value={transaction.amount}
+            onChange={(e) => handleChange("amount", e.target.value)}
+            min={0}
+            required={true}
+          />
+        </div>
       </div>
 
       <div className="form-field">
+        <label>
+          Type <span>*</span>
+        </label>
         <select
           value={transaction.type}
           onChange={(e) => handleTypeChange(e.target.value)}
           required={true}
         >
-          <option value="" disabled hidden></option>
+          <option value="" disabled hidden>Select type</option>
           <option value={TRANSACTION_TYPE.INCOME}>Income</option>
           <option value={TRANSACTION_TYPE.EXPENSE}>Expense</option>
         </select>
-        <label>
-          Type <span>*</span>
-        </label>
       </div>
 
       <div className="form-field">
+        <label>
+          Category <span>*</span>
+        </label>
         <select
           value={transaction.category}
           onChange={(e) => handleChange("category", e.target.value)}
           required={true}
         >
-          <option value="" disabled hidden></option>
+          <option value="" disabled hidden>Select category</option>
           {categories.map((cat) => (
             <option key={cat} value={cat}>
-              {cat}
+              {formatLabel(cat)}
             </option>
           ))}
         </select>
-        <label>
-          Category <span>*</span>
-        </label>
       </div>
 
       <div className="form-field">
+        <label>Notes</label>
         <textarea
-          placeholder=" "
+          placeholder="Add any additional notes (optional)"
           value={transaction.notes}
           onChange={(e) => handleChange("notes", e.target.value)}
           required={false}
         />
-        <label>Notes</label>
       </div>
 
       <button type="submit">{initialData ? "Save Changes" : "Add Transaction"}</button>
