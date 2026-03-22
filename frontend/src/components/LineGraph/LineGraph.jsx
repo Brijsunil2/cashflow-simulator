@@ -36,7 +36,8 @@ const LineGraph = ({ data = [], xAxisFormat = "%b", yAxisFormat = "$.2s" }) => {
         const svg = d3.select(svgRef.current);
         svg.selectAll("*").remove(); // Clear previous render
 
-        const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+        const isSmall = width < 500;
+        const margin = { top: 20, right: 20, bottom: 30, left: isSmall ? 35 : 50 };
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
 

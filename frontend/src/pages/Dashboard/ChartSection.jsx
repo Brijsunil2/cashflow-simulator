@@ -90,7 +90,7 @@ const ChartSection = ({ displayedSummary, chartData, displayedTransactions = [] 
                     className="dashboard__chart-wrapper"
                     style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
                         gap: '2rem',
                         aspectRatio: 'auto', /* Override Dashboard.scss aspect ratio to prevent horizontal blowout */
                         height: 'auto'
